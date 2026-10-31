@@ -6,7 +6,7 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 - [x] Giai đoạn 2: cơ sở dữ liệu và API
 - [x] Giai đoạn 3: tài khoản khách hàng (OTP)
 - [x] Giai đoạn 4: trang quản trị
-- [ ] Giai đoạn 5: giao diện khách
+- [x] Giai đoạn 5: giao diện khách
 - [ ] Giai đoạn 6: bảo mật, chất lượng, kiểm tra
 - [ ] Giai đoạn 7: deploy Vercel
 
@@ -36,3 +36,11 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 - Tổng quan, đơn hàng lọc/đổi trạng thái, sản phẩm sửa giá/tồn kho/ẩn bán, đánh giá duyệt/trả lời, email và xuất CSV có chống công thức bảng tính. Doanh thu tính đơn đã giao.
 - Bám mẫu Admin: sidebar tối, nền kem xám, thẻ trắng bo 20px viền 2px. Các mục quản trị dùng /admin?tab=... để dùng chung khung.
 - Build không có DB và lint đều đạt; chưa xác minh thao tác với DB thật.
+
+### Giai đoạn 5 — hoàn tất mã nguồn
+- Chuyển trang chủ vào (site), đầy đủ shop/chi tiết, giỏ và drawer dialog, checkout/success, quiz/result, about/policies/track, login/register/forgot 3 bước. Header responsive, thanh mua mobile, ảnh next/image và font next/font/google.
+- Đã đọc 11 mẫu thiết kế: giữ màu, font, bo góc/viền, tỷ lệ ảnh 3:4, bố cục hero và admin. Viết lại React; không đưa design vào build. Chưa xác minh pixel-perfect bằng trình duyệt.
+- Cart chỉ lưu ID/qty/scent; first-touch UTM 30 ngày; mọi POST client gắn UTM. Cookie consent mới tải GA/Meta, có sự kiện theo đề bài. Messenger ẩn nếu chưa cấu hình trang thật.
+- Mock qua NEXT_PUBLIC_USE_MOCK=1: danh mục, đơn/tồn kho/coupon/tra cứu, subscribe/quiz, tài khoản lưu bm_mock_users với PBKDF2 (không lưu mật khẩu rõ), phiên demo, OTP 123456 và reset một lần. Dữ liệu mock chỉ ở trình duyệt, không vào admin DB.
+- Thành phần/cách dùng chính thức, liên hệ, ngân hàng/QR để [placeholder]. Không tạo thông tin thương mại chưa xác minh; checkout nhắc không chuyển tiền.
+- Build và npm run check đạt. Tiếp theo: rà soát bảo mật, kiểm thử và tối ưu giai đoạn 6.
