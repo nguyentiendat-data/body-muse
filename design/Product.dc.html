@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>BODY MUSE – Xịt khử mùi</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,700;9..144,800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBD9CF;font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#14110F}
+a{color:#1A52B8}a:hover{color:#14110F}
+</style>
+</helmet>
+<div style="width:100%;max-width:1360px;margin:0 auto;display:flex;flex-direction:column;background:#FBD9CF">
+
+<div style="background:#14110F;color:#FFF6EE;text-align:center;padding:10px 16px;font-size:14px;font-weight:500">Miễn phí ship từ 399.000đ · Đổi trả 30 ngày · Thử trước 5 mẫu 2 ml</div>
+
+<header style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:16px 48px">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:#14110F">
+<img src="/_blob/85b1797fa3e80457b6012732411ea728" alt="Huy hiệu BODY MUSE" style="width:56px;height:56px;border-radius:50%">
+<span style="font-family:'Fraunces',serif;font-weight:800;font-size:26px">BODY MUSE</span>
+</a>
+<nav aria-label="Menu chính" style="display:flex;flex-wrap:wrap;gap:28px;font-size:16px;font-weight:600">
+<a href="Shop.dc.html" style="color:#14110F;text-decoration:none">Cửa hàng</a>
+<a href="Quiz.dc.html" style="color:#14110F;text-decoration:none">Trắc nghiệm mùi</a>
+<a href="Main.dc.html" style="color:#14110F;text-decoration:none">Về BODY MUSE</a>
+<a href="Main.dc.html" style="color:#14110F;text-decoration:none">Chính sách</a>
+</nav>
+<a href="Checkout.dc.html" aria-label="Giỏ hàng" style="display:flex;align-items:center;gap:8px;min-height:48px;padding:0 20px;border:2px solid #14110F;border-radius:999px;background:#FFF6EE;color:#14110F;text-decoration:none;font-weight:700">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#14110F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6h15l-1.5 9H7.5L6 6zm0 0L5 3H2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>
+Giỏ hàng ({{cartCount}})
+</a>
+</header>
+
+<div style="padding:0 48px 16px;font-size:14px"><a href="Shop.dc.html">Cửa hàng</a> / Xịt khử mùi / <b>Xịt khử mùi {{scentName}}</b></div>
+
+<section style="display:flex;flex-wrap:wrap;gap:48px;padding:8px 48px 56px">
+
+<div style="flex:1 1 400px;max-width:480px;display:flex;flex-direction:column;gap:16px">
+<div style="aspect-ratio:3/4;border-radius:32px;border:3px solid #14110F;overflow:hidden;background:#F6C6BA">
+<img src="{{mainPhoto}}" alt="{{mainAlt}}" style="width:100%;height:100%;object-fit:cover;display:block">
+</div>
+<div style="display:flex;gap:12px">
+<sc-for list="{{thumbs}}" as="t" hint-placeholder-count="3">
+<button type="button" onClick="{{t.pick}}" aria-label="{{t.label}}" style="{{t.style}}"><img src="{{t.src}}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></button>
+</sc-for>
+</div>
+</div>
+
+<div style="flex:1 1 420px;display:flex;flex-direction:column;gap:20px;max-width:560px">
+<span style="align-self:flex-start;background:#F6C945;border:2px solid #14110F;border-radius:999px;padding:4px 14px;font-size:14px;font-weight:700">Bán chạy</span>
+<h1 style="margin:0;font-family:'Fraunces',serif;font-weight:800;font-size:44px;line-height:1.1">Xịt khử mùi {{scentName}}</h1>
+<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:12px">
+<span style="font-size:32px;font-weight:700;color:#1A52B8">{{priceText}}</span>
+<span style="font-size:15px;color:#4A413C">124.000đ / 100 g · 104 g</span>
+</div>
+<p style="margin:0;font-size:17px;line-height:1.55">{{scentStory}}</p>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font-weight:700;font-size:15px">Mùi hương</span>
+<div style="display:flex;flex-wrap:wrap;gap:10px">
+<sc-for list="{{scents}}" as="s" hint-placeholder-count="3">
+<button type="button" onClick="{{s.pick}}" style="{{s.style}}">{{s.name}}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px;background:#FFF6EE;border:2px solid #14110F;border-radius:20px;padding:16px 20px">
+<span style="font-weight:700;font-size:15px">3 tầng hương</span>
+<span style="font-size:15px;line-height:1.5">Đầu: {{noteTop}} · Giữa: {{noteMid}} · Cuối: {{noteBase}}</span>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+<div style="display:flex;align-items:center;border:2px solid #14110F;border-radius:999px;background:#FFF6EE">
+<button type="button" onClick="{{dec}}" aria-label="Giảm số lượng" style="width:48px;height:52px;border:0;background:transparent;font-size:22px;font-family:inherit;color:#14110F">−</button>
+<span style="min-width:32px;text-align:center;font-weight:700;font-size:18px">{{qty}}</span>
+<button type="button" onClick="{{inc}}" aria-label="Tăng số lượng" style="width:48px;height:52px;border:0;background:transparent;font-size:22px;font-family:inherit;color:#14110F">+</button>
+</div>
+<button type="button" onClick="{{add}}" style="flex:1 1 200px;min-height:56px;border:2px solid #14110F;border-radius:999px;background:#14110F;color:#FFF6EE;font-size:18px;font-weight:700;font-family:inherit">{{addLabel}}</button>
+</div>
+
+<ul style="margin:0;padding:16px 20px;list-style:none;display:flex;flex-direction:column;gap:8px;font-size:15px;background:#BFE5D3;border:2px solid #14110F;border-radius:20px">
+<li><b>Giao hàng:</b> phí ship ước tính 25.000đ, miễn phí từ 399.000đ. Nhận hàng sau 2–4 ngày.</li>
+<li><b>Đổi trả:</b> 30 ngày nếu không hợp mùi. <a href="Main.dc.html">Xem chính sách</a></li>
+<li><b>Muốn thử trước?</b> <a href="Shop.dc.html">Discovery Kit 5 mẫu 2 ml, 99.000đ</a></li>
+</ul>
+
+<a href="Main.dc.html" style="display:inline-flex;align-items:center;gap:10px;min-height:48px;font-weight:700;font-size:16px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A52B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>
+Hỏi qua Messenger
+</a>
+</div>
+</section>
+
+<section style="padding:0 48px 64px;display:flex;flex-wrap:wrap;gap:32px">
+<div style="flex:1 1 420px;display:flex;flex-direction:column;gap:12px">
+<h2 style="margin:0;font-family:'Fraunces',serif;font-weight:800;font-size:32px">Thành phần và cách dùng</h2>
+<p style="margin:0;font-size:16px;line-height:1.6">Xịt cách da 15 cm sau khi tắm, tránh vùng da trầy xước. Để xa lửa. Danh sách thành phần đầy đủ ghi trên bao bì: [THÀNH PHẦN THẬT SẼ ĐƯỢC ĐIỀN SAU].</p>
+</div>
+<div style="flex:1 1 420px;display:flex;flex-direction:column;gap:12px">
+<h2 style="margin:0;font-family:'Fraunces',serif;font-weight:800;font-size:32px">Đánh giá khách hàng</h2>
+<div style="background:#FFF6EE;border:2px dashed #14110F;border-radius:20px;padding:24px;font-size:16px;line-height:1.5">Chưa có đánh giá nào. Đánh giá thật sẽ hiện ở đây sau khi shop duyệt trong trang quản trị.</div>
+<a href="Product.dc.html" style="align-self:flex-start;display:inline-flex;align-items:center;min-height:48px;padding:0 24px;border:2px solid #14110F;border-radius:999px;color:#14110F;text-decoration:none;font-weight:700">Viết đánh giá</a>
+</div>
+</section>
+
+<footer style="background:#14110F;color:#FFF6EE;padding:36px 48px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:15px">
+<span style="font-family:'Fraunces',serif;font-weight:800;font-size:24px">BODY MUSE</span>
+<span style="color:#E8DDD3">Bản demo cho đồ án, không thu tiền thật.</span>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":1380}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { scent: 0, qty: 1, photo: 0, added: false, cart: 2 };
+  }
+  renderVals() {
+    const st = this.state;
+    const S = [
+      { name: 'Daisy Blue', story: 'Cam bergamot mở đầu, hoa cúc ở giữa, xạ hương trắng ở cuối. Sạch, tươi, hợp đi học và đi làm.', top: 'cam bergamot', mid: 'hoa cúc', base: 'xạ hương trắng' },
+      { name: 'Peony Amber', story: 'Mẫu đơn mềm, hổ phách ấm, gỗ tuyết tùng ở nền. Hợp buổi tối và những buổi hẹn.', top: 'quýt, tiêu hồng', mid: 'mẫu đơn', base: 'hổ phách, gỗ tuyết tùng' },
+      { name: 'Mint Soda', story: 'Bạc hà và chanh mát lạnh, nền gỗ nhẹ. Hợp thể thao và những ngày nóng.', top: 'bạc hà, chanh', mid: 'lá xanh', base: 'gỗ nhẹ' }
+    ];
+    const cur = S[st.scent];
+    const CAN = ['/_blob/51a8dc186e6ee6f27d20705d4af87016', '/_blob/c93d27af4b70c8dd866e6f368c4dae2b', '/_blob/43a6fe9f0a4f65e4febeed4accfc0882'];
+    const DET = ['/_blob/f50a6bff3317be16b8c05a8909f59629', '/_blob/bfd92417469fab16fee78fcc7acbf0af', '/_blob/c7dcfcb370bd2b1eb5fd9278dfeed9d8'];
+    const SET = ['/_blob/0d7b7d162d7b0e326b3e2f316363e530', '/_blob/1b0f31c43c684b1e4b2a0b56013a710b', '/_blob/9dc2945190a265cd0583efd6f4cad0fa'];
+    const photos = [
+      { src: CAN[st.scent], label: 'Ảnh lon xịt ' + cur.name },
+      { src: DET[st.scent], label: 'Cận cảnh nhãn ' + cur.name },
+      { src: SET[st.scent], label: 'Lon xịt cùng chai sữa tắm ' + cur.name }
+    ];
+    const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ';
+    return {
+      cartCount: st.cart,
+      scentName: cur.name,
+      scentStory: cur.story,
+      noteTop: cur.top, noteMid: cur.mid, noteBase: cur.base,
+      qty: st.qty,
+      priceText: fmt(129000 * st.qty),
+      mainPhoto: photos[st.photo].src,
+      mainAlt: photos[st.photo].label,
+      addLabel: st.added ? 'Đã thêm vào giỏ' : 'Thêm vào giỏ hàng',
+      thumbs: photos.map((p, i) => ({
+        src: p.src, label: p.label,
+        style: 'width:84px;height:112px;padding:0;overflow:hidden;border-radius:16px;background:#F6C6BA;border:' + (i === st.photo ? '3px solid #1F5FD0' : '2px solid #14110F'),
+        pick: () => this.setState({ photo: i })
+      })),
+      scents: S.map((s, i) => ({
+        name: s.name,
+        style: 'min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;font-family:inherit;color:' + (i === st.scent ? '#FFF6EE' : '#14110F') + ';background:' + (i === st.scent ? '#14110F' : '#FFF6EE') + ';border:2px solid #14110F',
+        pick: () => this.setState({ scent: i, added: false })
+      })),
+      dec: () => this.setState({ qty: Math.max(1, st.qty - 1), added: false }),
+      inc: () => this.setState({ qty: Math.min(9, st.qty + 1), added: false }),
+      add: () => this.setState({ added: true, cart: 2 + st.qty })
+    };
+  }
+}
+</script>
+</body>
+</html>

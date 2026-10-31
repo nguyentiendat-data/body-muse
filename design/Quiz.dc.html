@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>BODY MUSE – Trắc nghiệm mùi hương</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,700;9..144,800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBD9CF;font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#14110F}
+a{color:#1A52B8}a:hover{color:#14110F}
+</style>
+</helmet>
+<div style="width:100%;max-width:1360px;margin:0 auto;display:flex;flex-direction:column;background:#FBD9CF;min-height:900px">
+
+<header style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:20px 48px">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:#14110F">
+<img src="/_blob/85b1797fa3e80457b6012732411ea728" alt="Huy hiệu BODY MUSE" style="width:48px;height:48px;border-radius:50%">
+<span style="font-family:'Fraunces',serif;font-weight:800;font-size:24px">BODY MUSE</span>
+</a>
+<a href="Shop.dc.html" style="font-weight:600;font-size:16px">Bỏ qua, xem cửa hàng →</a>
+</header>
+
+<main style="flex:1;display:flex;justify-content:center;padding:24px 24px 72px">
+<div style="width:100%;max-width:760px;display:flex;flex-direction:column;gap:28px">
+
+<sc-if value="{{isQuestion}}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font-size:15px;font-weight:700">Câu {{stepLabel}} trên 5</span>
+<div style="display:flex;gap:8px">
+<sc-for list="{{dots}}" as="d" hint-placeholder-count="5"><div style="{{d.style}}"></div></sc-for>
+</div>
+</div>
+<h1 style="margin:0;font-family:'Fraunces',serif;font-weight:800;font-size:44px;line-height:1.1">{{question}}</h1>
+<div style="display:flex;flex-direction:column;gap:14px">
+<sc-for list="{{options}}" as="o" hint-placeholder-count="3">
+<button type="button" onClick="{{o.pick}}" style="display:flex;align-items:center;min-height:68px;padding:0 28px;text-align:left;border:2px solid #14110F;border-radius:20px;background:#FFF6EE;font-size:19px;font-weight:600;font-family:inherit;color:#14110F;cursor:pointer">{{o.text}}</button>
+</sc-for>
+</div>
+<span style="font-size:14px;color:#4A413C">Không có đáp án đúng hay sai. Kết quả chỉ để gợi ý.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{isResult}}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:24px">
+<span style="align-self:flex-start;background:#F6C945;border:2px solid #14110F;border-radius:999px;padding:6px 16px;font-size:14px;font-weight:700">Chữ ký mùi hương của bạn</span>
+<h1 style="margin:0;font-family:'Fraunces',serif;font-weight:800;font-size:60px;line-height:1.05">{{resultName}}</h1>
+<p style="margin:0;font-size:19px;line-height:1.55">{{resultReason}}</p>
+<div style="background:{{resultTint}};border:2px solid #14110F;border-radius:20px;padding:16px 20px;font-size:16px"><b>3 tầng hương:</b> {{resultNotes}}</div>
+<h2 style="margin:8px 0 0;font-size:22px">Bắt đầu với 3 sản phẩm này</h2>
+<div style="display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{picks}}" as="p" hint-placeholder-count="3">
+<a href="Product.dc.html" style="display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;padding:12px 24px;border:2px solid #14110F;border-radius:20px;background:#FFF6EE;color:#14110F;text-decoration:none"><b style="font-size:17px">{{p.name}}</b><span style="font-weight:700;color:#1A52B8">{{p.price}}</span></a>
+</sc-for>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:12px">
+<a href="Product.dc.html" style="display:inline-flex;align-items:center;min-height:56px;padding:0 28px;border-radius:999px;background:#14110F;color:#FFF6EE;text-decoration:none;font-size:17px;font-weight:700">Thêm cả 3 vào giỏ</a>
+<a href="Shop.dc.html" style="display:inline-flex;align-items:center;min-height:56px;padding:0 28px;border-radius:999px;border:2px solid #14110F;color:#14110F;text-decoration:none;font-size:17px;font-weight:700">Thử Discovery Kit 99.000đ</a>
+<button type="button" onClick="{{restart}}" style="min-height:56px;padding:0 24px;border:0;background:transparent;color:#1A52B8;font-size:16px;font-weight:700;font-family:inherit;text-decoration:underline">Làm lại</button>
+</div>
+</div>
+</sc-if>
+
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":1020}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { step: 0, answers: [] };
+  }
+  renderVals() {
+    const st = this.state;
+    const Q = [
+      { q: 'Cuối tuần lý tưởng của bạn là gì?', o: ['Cà phê và một cuốn sách', 'Đi chơi tối cùng bạn bè', 'Chạy bộ hay đá bóng ngoài trời'] },
+      { q: 'Thời tiết nào làm bạn thấy dễ chịu nhất?', o: ['Nắng nhẹ, trời trong', 'Trời mát, về chiều', 'Nắng nóng, đổ mồ hôi'] },
+      { q: 'Bạn muốn người khác nhớ gì về mình?', o: ['Gọn gàng, sạch sẽ', 'Quyến rũ, khó đoán', 'Năng lượng, vui vẻ'] },
+      { q: 'Bạn dùng mùi hương nhiều nhất khi nào?', o: ['Đi học, đi làm', 'Hẹn hò, tiệc tối', 'Tập gym, chơi thể thao'] },
+      { q: 'Bạn chọn màu nào?', o: ['Xanh cobalt', 'Cam đào', 'Xanh bạc hà'] }
+    ];
+    const R = [
+      { name: 'Daisy Blue', tint: '#DCE8FB', notes: 'cam bergamot, hoa cúc, xạ hương trắng', reason: 'Bạn thích sự gọn gàng và dễ chịu. Daisy Blue tươi và sạch, dùng hằng ngày không bị nồng, hợp đi học và đi làm.', picks: [['Xịt khử mùi Daisy Blue', '129.000đ'], ['Lăn khử mùi Daisy Blue', '99.000đ'], ['Nước hoa Daisy Blue EDT', '489.000đ']] },
+      { name: 'Peony Amber', tint: '#FFE0CC', notes: 'quýt, mẫu đơn, hổ phách, gỗ tuyết tùng', reason: 'Bạn thích sự quyến rũ và hơi khó đoán. Peony Amber ấm và mềm, hợp những buổi tối và những buổi hẹn.', picks: [['Xịt khử mùi Peony Amber', '129.000đ'], ['Sữa tắm gel Peony Amber', '149.000đ'], ['Dưỡng thể Peony Amber', '179.000đ']] },
+      { name: 'Mint Soda', tint: '#D6F0E2', notes: 'bạc hà, chanh, lá xanh, gỗ nhẹ', reason: 'Bạn năng động và hay vận động. Mint Soda mát lạnh, tạo cảm giác sảng khoái ngay cả khi trời nóng hay sau khi tập.', picks: [['Xịt khử mùi Mint Soda', '129.000đ'], ['Sữa tắm gel Mint Soda', '149.000đ'], ['Dầu gội Mint Soda', '169.000đ']] }
+    ];
+    const done = st.step >= 5;
+    const counts = [0, 0, 0];
+    st.answers.forEach((a) => { counts[a] += 1; });
+    let best = 0;
+    counts.forEach((c, i) => { if (c > counts[best]) best = i; });
+    const res = R[best];
+    const cur = Q[Math.min(st.step, 4)];
+    return {
+      isQuestion: !done,
+      isResult: done,
+      stepLabel: Math.min(st.step, 4) + 1,
+      question: cur.q,
+      options: cur.o.map((t, i) => ({ text: t, pick: () => this.setState({ step: st.step + 1, answers: st.answers.concat([i]) }) })),
+      dots: [0, 1, 2, 3, 4].map((i) => ({ style: 'flex:1;height:10px;border-radius:999px;border:2px solid #14110F;background:' + (i <= st.step ? '#1F5FD0' : '#FFF6EE') })),
+      resultName: res.name,
+      resultReason: res.reason,
+      resultNotes: res.notes,
+      resultTint: res.tint,
+      picks: res.picks.map((p) => ({ name: p[0], price: p[1] })),
+      restart: () => this.setState({ step: 0, answers: [] })
+    };
+  }
+}
+</script>
+</body>
+</html>

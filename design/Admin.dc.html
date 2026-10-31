@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>BODY MUSE – Quản trị đơn hàng</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,700;9..144,800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4EFEA;font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#14110F}
+a{color:#1A52B8}
+table{border-collapse:collapse;width:100%}
+th{text-align:left;font-size:13px;font-weight:700;padding:12px 16px;border-bottom:2px solid #14110F;white-space:nowrap}
+td{font-size:15px;padding:14px 16px;border-bottom:1px solid #D9CFC6;white-space:nowrap}
+</style>
+</helmet>
+<div style="width:100%;max-width:1360px;margin:0 auto;display:flex;flex-wrap:wrap;min-height:1000px;background:#F4EFEA">
+
+<nav aria-label="Menu quản trị" style="flex:0 0 240px;background:#14110F;color:#FFF6EE;padding:28px 20px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+<img src="/_blob/85b1797fa3e80457b6012732411ea728" alt="" style="width:44px;height:44px;border-radius:50%">
+<div style="display:flex;flex-direction:column"><b style="font-family:'Fraunces',serif;font-size:20px">BODY MUSE</b><span style="font-size:13px;color:#E8DDD3">Quản trị</span></div>
+</div>
+<a href="Admin.dc.html" style="display:flex;align-items:center;min-height:48px;padding:0 16px;border-radius:12px;background:#1F5FD0;color:#FFF6EE;text-decoration:none;font-weight:600">Tổng quan</a>
+<a href="Admin.dc.html" style="display:flex;align-items:center;min-height:48px;padding:0 16px;border-radius:12px;color:#FFF6EE;text-decoration:none;font-weight:600">Đơn hàng</a>
+<a href="Admin.dc.html" style="display:flex;align-items:center;min-height:48px;padding:0 16px;border-radius:12px;color:#FFF6EE;text-decoration:none;font-weight:600">Sản phẩm</a>
+<a href="Admin.dc.html" style="display:flex;align-items:center;min-height:48px;padding:0 16px;border-radius:12px;color:#FFF6EE;text-decoration:none;font-weight:600">Đánh giá</a>
+<a href="Admin.dc.html" style="display:flex;align-items:center;min-height:48px;padding:0 16px;border-radius:12px;color:#FFF6EE;text-decoration:none;font-weight:600">Email thu được</a>
+<a href="Main.dc.html" style="margin-top:auto;display:flex;align-items:center;min-height:48px;padding:0 16px;color:#E8DDD3;text-decoration:none;font-weight:600">Đăng xuất</a>
+</nav>
+
+<main style="flex:1 1 640px;min-width:0;padding:32px 40px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+<h1 style="margin:0;font-family:'Fraunces',serif;font-weight:800;font-size:36px">Tổng quan</h1>
+<span style="background:#F6C945;border:2px solid #14110F;border-radius:999px;padding:6px 16px;font-size:14px;font-weight:700">Dữ liệu mẫu để minh họa</span>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px">
+<div style="background:#fff;border:2px solid #14110F;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;color:#4A413C">Đơn mới</span><b style="font-size:32px">12</b></div>
+<div style="background:#fff;border:2px solid #14110F;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;color:#4A413C">Doanh thu đơn demo</span><b style="font-size:32px">3.420.000đ</b></div>
+<div style="background:#fff;border:2px solid #14110F;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;color:#4A413C">Email thu được</span><b style="font-size:32px">48</b></div>
+<div style="background:#fff;border:2px solid #14110F;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;color:#4A413C">Làm xong trắc nghiệm</span><b style="font-size:32px">76</b></div>
+</div>
+
+<section style="background:#fff;border:2px solid #14110F;border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+<h2 style="margin:0;font-size:20px">Đơn hàng gần đây</h2>
+<a href="Admin.dc.html" style="display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border:2px solid #14110F;border-radius:999px;color:#14110F;text-decoration:none;font-weight:700;font-size:15px">Xuất CSV</a>
+</div>
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Mã đơn</th><th>Khách</th><th>Tổng</th><th>Thanh toán</th><th>Nguồn (UTM)</th><th>Trạng thái</th></tr></thead>
+<tbody>
+<sc-for list="{{orders}}" as="o" hint-placeholder-count="6">
+<tr><td><b>{{o.code}}</b></td><td>{{o.customer}}</td><td>{{o.total}}</td><td>{{o.pay}}</td><td>{{o.source}}</td><td><span style="{{o.badge}}">{{o.status}}</span></td></tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</section>
+
+<section style="background:#fff;border:2px solid #14110F;border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:12px">
+<h2 style="margin:0;font-size:20px">Đơn theo nguồn truy cập</h2>
+<span style="font-size:15px;color:#4A413C">Lấy từ tham số UTM trong link bài đăng, dùng để đối chiếu với báo cáo đo lường.</span>
+<sc-for list="{{sources}}" as="s" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:16px"><span style="flex:0 0 110px;font-weight:600;font-size:15px">{{s.name}}</span><div style="flex:1;height:18px;border-radius:999px;background:#F4EFEA;border:2px solid #14110F;overflow:hidden"><div style="{{s.bar}}"></div></div><b style="flex:0 0 32px;text-align:right">{{s.count}}</b></div>
+</sc-for>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":1060}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const badge = (bg) => 'display:inline-block;padding:4px 12px;border-radius:999px;border:2px solid #14110F;font-size:13px;font-weight:700;background:' + bg;
+    const NEW = badge('#F6C945'), SHIP = badge('#DCE8FB'), DONE = badge('#BFE5D3');
+    const mk = (n, c, t, p, s, st, b) => ({ code: 'BM-' + n, customer: c, total: t, pay: p, source: s, status: st, badge: b });
+    const src = [['Facebook', 5], ['TikTok', 4], ['Instagram', 2], ['Threads', 1]];
+    return {
+      orders: [
+        mk('0012', 'Nguyễn Văn A', '303.000đ', 'COD', 'facebook', 'Mới', NEW),
+        mk('0011', 'Trần Minh B', '129.000đ', 'Chuyển khoản', 'tiktok', 'Đang giao', SHIP),
+        mk('0010', 'Lê Quốc C', '399.000đ', 'COD', 'instagram', 'Đã giao', DONE),
+        mk('0009', 'Phạm Hữu D', '99.000đ', 'COD', 'facebook', 'Đã giao', DONE),
+        mk('0008', 'Võ Anh E', '489.000đ', 'Chuyển khoản', 'tiktok', 'Đang giao', SHIP),
+        mk('0007', 'Đặng Gia F', '278.000đ', 'COD', 'threads', 'Đã giao', DONE)
+      ],
+      sources: src.map((s) => ({ name: s[0], count: s[1], bar: 'height:100%;background:#1F5FD0;width:' + (s[1] * 20) + '%' }))
+    };
+  }
+}
+</script>
+</body>
+</html>

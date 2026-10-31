@@ -1,0 +1,121 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-31T15:40:00Z"
+  },
+  "title": "BODY MUSE – giao diện website",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1360,
+      "h": 2100,
+      "title": "1. Trang chủ",
+      "expand": "fill"
+    },
+    "Shop.dc.html": {
+      "x": 1440,
+      "y": 0,
+      "w": 1360,
+      "h": 2600,
+      "title": "2. Cửa hàng",
+      "expand": "fill"
+    },
+    "Product.dc.html": {
+      "x": 2880,
+      "y": 0,
+      "w": 1360,
+      "h": 1380,
+      "title": "3. Chi tiết sản phẩm",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Checkout.dc.html": {
+      "x": 0,
+      "y": 2720,
+      "w": 1360,
+      "h": 1180,
+      "title": "4. Giỏ hàng và thanh toán",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Quiz.dc.html": {
+      "x": 1440,
+      "y": 2720,
+      "w": 1360,
+      "h": 1020,
+      "title": "5. Trắc nghiệm Chữ ký mùi hương",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Admin.dc.html": {
+      "x": 2880,
+      "y": 2720,
+      "w": 1360,
+      "h": 1060,
+      "title": "6. Trang quản trị",
+      "expand": "fill"
+    },
+    "MobileHome.dc.html": {
+      "x": 4320,
+      "y": 0,
+      "w": 390,
+      "h": 1900,
+      "title": "7. Mobile: trang chủ"
+    },
+    "MobileProduct.dc.html": {
+      "x": 4790,
+      "y": 0,
+      "w": 390,
+      "h": 1260,
+      "title": "8. Mobile: sản phẩm"
+    },
+    "Login.dc.html": {
+      "x": 0,
+      "y": 4020,
+      "w": 1360,
+      "h": 820,
+      "title": "9. Đăng nhập",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Register.dc.html": {
+      "x": 1440,
+      "y": 4020,
+      "w": 1360,
+      "h": 960,
+      "title": "10. Đăng ký",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Forgot.dc.html": {
+      "x": 2880,
+      "y": 4020,
+      "w": 1360,
+      "h": 860,
+      "title": "11. Quên mật khẩu (OTP)",
+      "expand": "fill",
+      "is_interactive": true
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Shop.dc.html",
+    "Product.dc.html",
+    "Checkout.dc.html",
+    "Quiz.dc.html",
+    "Admin.dc.html",
+    "MobileHome.dc.html",
+    "MobileProduct.dc.html",
+    "Login.dc.html",
+    "Register.dc.html",
+    "Forgot.dc.html"
+  ],
+  "notes": {},
+  "designSystems": []
+}

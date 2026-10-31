@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>BODY MUSE – Giỏ hàng và thanh toán</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,700;9..144,800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBD9CF;font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#14110F}
+a{color:#1A52B8}a:hover{color:#14110F}
+</style>
+</helmet>
+<div style="width:100%;max-width:1360px;margin:0 auto;display:flex;flex-direction:column;background:#FBD9CF">
+
+<header style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:20px 48px">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:#14110F">
+<img src="/_blob/85b1797fa3e80457b6012732411ea728" alt="Huy hiệu BODY MUSE" style="width:48px;height:48px;border-radius:50%">
+<span style="font-family:'Fraunces',serif;font-weight:800;font-size:24px">BODY MUSE</span>
+</a>
+<a href="Shop.dc.html" style="font-weight:600;font-size:16px">← Tiếp tục mua sắm</a>
+</header>
+
+<div style="margin:0 48px 24px;background:#F6C945;border:2px solid #14110F;border-radius:16px;padding:12px 20px;font-size:15px;font-weight:600">Bản demo cho đồ án: đơn hàng được lưu vào hệ thống nhưng không thu tiền thật.</div>
+
+<div style="padding:0 48px 72px;display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+
+<div style="flex:1 1 560px;display:flex;flex-direction:column;gap:28px">
+<h1 style="margin:0;font-family:'Fraunces',serif;font-weight:800;font-size:44px">Thanh toán</h1>
+
+<div style="background:#FFF6EE;border:2px solid #14110F;border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h2 style="margin:0;font-size:20px">Thông tin nhận hàng</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+<div style="display:flex;flex-direction:column;gap:6px"><label for="name" style="font-weight:600;font-size:15px">Họ và tên</label><input id="name" type="text" value="Nguyễn Văn A" style="min-height:52px;padding:0 16px;border:2px solid #14110F;border-radius:14px;font-size:16px;font-family:inherit;background:#fff"></div>
+<div style="display:flex;flex-direction:column;gap:6px"><label for="phone" style="font-weight:600;font-size:15px">Số điện thoại</label><input id="phone" type="tel" value="0901 234 567" style="min-height:52px;padding:0 16px;border:2px solid #14110F;border-radius:14px;font-size:16px;font-family:inherit;background:#fff"></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px"><label for="addr" style="font-weight:600;font-size:15px">Địa chỉ</label><input id="addr" type="text" value="12 Đường Mẫu, Quận 1, TP. Hồ Chí Minh" style="min-height:52px;padding:0 16px;border:2px solid #14110F;border-radius:14px;font-size:16px;font-family:inherit;background:#fff"></div>
+<div style="display:flex;flex-direction:column;gap:6px"><label for="note" style="font-weight:600;font-size:15px">Ghi chú (không bắt buộc)</label><input id="note" type="text" placeholder="Ví dụ: giao giờ hành chính" style="min-height:52px;padding:0 16px;border:2px solid #14110F;border-radius:14px;font-size:16px;font-family:inherit;background:#fff"></div>
+</div>
+
+<div style="background:#FFF6EE;border:2px solid #14110F;border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h2 style="margin:0;font-size:20px">Thanh toán</h2>
+<div style="display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{methods}}" as="m" hint-placeholder-count="2">
+<button type="button" onClick="{{m.pick}}" style="{{m.style}}"><span style="font-weight:700;font-size:16px">{{m.title}}</span><span style="font-size:14px;color:#4A413C">{{m.desc}}</span></button>
+</sc-for>
+</div>
+<sc-if value="{{showBank}}" hint-placeholder-val="{{ false }}"><div style="background:#BFE5D3;border:2px solid #14110F;border-radius:16px;padding:16px;font-size:15px;line-height:1.5">Chuyển khoản theo nội dung <b>BM-0001 + số điện thoại</b>. Mã QR và số tài khoản sẽ hiển thị sau khi đặt hàng. [THÔNG TIN TÀI KHOẢN THẬT CỦA NHÓM]</div></sc-if>
+</div>
+</div>
+
+<aside style="flex:1 1 380px;max-width:480px;background:#FFF6EE;border:3px solid #14110F;border-radius:28px;padding:28px;display:flex;flex-direction:column;gap:18px" aria-label="Giỏ hàng">
+<h2 style="margin:0;font-size:22px">Giỏ hàng (2)</h2>
+<div style="display:flex;gap:16px;align-items:center">
+<img src="/_blob/51a8dc186e6ee6f27d20705d4af87016" alt="Xịt khử mùi Daisy Blue" style="width:72px;height:96px;object-fit:cover;border-radius:12px;border:2px solid #14110F">
+<div style="flex:1;display:flex;flex-direction:column;gap:2px"><b style="font-size:16px">Xịt khử mùi Daisy Blue</b><span style="font-size:14px;color:#4A413C">104 g · Số lượng 1</span></div>
+<b style="font-size:16px">129.000đ</b>
+</div>
+<div style="display:flex;gap:16px;align-items:center">
+<img src="/_blob/3dcc56646d5fc5aa85e91a87cd9d0ab4" alt="Sữa tắm gel Mint Soda" style="width:72px;height:96px;object-fit:cover;border-radius:12px;border:2px solid #14110F">
+<div style="flex:1;display:flex;flex-direction:column;gap:2px"><b style="font-size:16px">Sữa tắm gel Mint Soda</b><span style="font-size:14px;color:#4A413C">350 ml · Số lượng 1</span></div>
+<b style="font-size:16px">149.000đ</b>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px;padding:14px 16px;background:#BFE5D3;border:2px solid #14110F;border-radius:16px">
+<span style="font-size:14px;font-weight:600">Còn 121.000đ nữa là được miễn phí ship</span>
+<div style="height:10px;border-radius:999px;background:#FFF6EE;border:2px solid #14110F;overflow:hidden"><div style="width:70%;height:100%;background:#1F5FD0"></div></div>
+</div>
+
+<div style="display:flex;gap:8px">
+<label for="code" style="position:absolute;left:-9999px">Mã giảm giá</label>
+<input id="code" type="text" placeholder="Mã giảm giá" style="flex:1;min-height:48px;padding:0 16px;border:2px solid #14110F;border-radius:999px;font-size:15px;font-family:inherit;background:#fff">
+<button type="button" style="min-height:48px;padding:0 22px;border:2px solid #14110F;border-radius:999px;background:#FFF6EE;font-weight:700;font-family:inherit;color:#14110F">Áp dụng</button>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px;font-size:15px;border-top:2px solid #14110F;padding-top:16px">
+<div style="display:flex;justify-content:space-between"><span>Tạm tính</span><span>278.000đ</span></div>
+<div style="display:flex;justify-content:space-between"><span>Phí ship ước tính</span><span>25.000đ</span></div>
+<div style="display:flex;justify-content:space-between;font-size:20px;font-weight:700;padding-top:8px"><span>Tổng cộng</span><span style="color:#1A52B8">303.000đ</span></div>
+</div>
+
+<a href="Checkout.dc.html" style="display:flex;align-items:center;justify-content:center;min-height:58px;border-radius:999px;background:#14110F;color:#FFF6EE;text-decoration:none;font-size:18px;font-weight:700">Đặt hàng</a>
+<span style="font-size:13px;color:#4A413C;line-height:1.5">Đổi trả 30 ngày. Bằng việc đặt hàng, bạn đồng ý với <a href="Main.dc.html">chính sách</a> của BODY MUSE.</span>
+</aside>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":1180}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { method: 0 };
+  }
+  renderVals() {
+    const st = this.state;
+    const M = [
+      { title: 'Thanh toán khi nhận hàng (COD)', desc: 'Trả tiền mặt cho người giao hàng' },
+      { title: 'Chuyển khoản ngân hàng', desc: 'Quét mã QR sau khi đặt hàng' }
+    ];
+    return {
+      showBank: st.method === 1,
+      methods: M.map((m, i) => ({
+        title: m.title, desc: m.desc,
+        style: 'display:flex;flex-direction:column;gap:2px;align-items:flex-start;text-align:left;min-height:64px;padding:12px 20px;border-radius:16px;font-family:inherit;color:#14110F;cursor:pointer;background:' + (i === st.method ? '#DCE8FB' : '#fff') + ';border:' + (i === st.method ? '3px solid #1F5FD0' : '2px solid #14110F'),
+        pick: () => this.setState({ method: i })
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>
