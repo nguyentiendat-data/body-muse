@@ -5,7 +5,7 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 - [x] Giai đoạn 1: khung dự án và dữ liệu
 - [x] Giai đoạn 2: cơ sở dữ liệu và API
 - [x] Giai đoạn 3: tài khoản khách hàng (OTP)
-- [ ] Giai đoạn 4: trang quản trị
+- [x] Giai đoạn 4: trang quản trị
 - [ ] Giai đoạn 5: giao diện khách
 - [ ] Giai đoạn 6: bảo mật, chất lượng, kiểm tra
 - [ ] Giai đoạn 7: deploy Vercel
@@ -30,3 +30,9 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 - OTP demo 123456; SMS sinh randomInt và giao diện sendSms có TODO (chưa có nhà cung cấp). OTP lưu HMAC, hạn 5 phút, tối đa 5 lần; gửi cách 60 giây, tối đa 3/giờ. Không tiết lộ tài khoản qua forgot.
 - Reset JWT 10 phút với bản ghi dùng một lần trong transaction; khóa đăng nhập theo số và IP sau 5 lần sai trong 15 phút. Không log mật khẩu/OTP/thông tin cá nhân.
 - Build và lint đạt. Cần kiểm thử tích hợp tài khoản với Postgres khi có DATABASE_URL; kiểm thử đơn vị bảo mật ở giai đoạn 6.
+
+### Giai đoạn 4 — hoàn tất mã nguồn
+- Admin cookie riêng 7 ngày, middleware chỉ dùng jose, trang và API chưa đăng nhập trả 401. Login ở /admin/login; API kiểm tra lại quyền quản trị.
+- Tổng quan, đơn hàng lọc/đổi trạng thái, sản phẩm sửa giá/tồn kho/ẩn bán, đánh giá duyệt/trả lời, email và xuất CSV có chống công thức bảng tính. Doanh thu tính đơn đã giao.
+- Bám mẫu Admin: sidebar tối, nền kem xám, thẻ trắng bo 20px viền 2px. Các mục quản trị dùng /admin?tab=... để dùng chung khung.
+- Build không có DB và lint đều đạt; chưa xác minh thao tác với DB thật.
