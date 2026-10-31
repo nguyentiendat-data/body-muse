@@ -1,33 +1,77 @@
-export type Category = "xit-khu-mui" | "tam-goi" | "duong-the" | "lan-nuoc-hoa" | "bo-qua";
+export type Category =
+  "xit-khu-mui" | "tam-goi" | "duong-the" | "lan-nuoc-hoa" | "bo-qua";
 export type Scent = "daisy-blue" | "peony-amber" | "mint-soda" | "all";
 export type Notes = { top: string; mid: string; base: string };
 export type Product = {
-  id: string; slug: string; line: string; name: string; category: Category; scent: Scent;
-  size: string; priceVnd: number; unitPriceVnd: number | null;
-  unitBasis: "100 ml" | "100 g" | null; notes: Notes | null;
-  stock: number; image: string | null; isActive: boolean;
+  id: string;
+  slug: string;
+  line: string;
+  name: string;
+  category: Category;
+  scent: Scent;
+  size: string;
+  priceVnd: number;
+  unitPriceVnd: number | null;
+  unitBasis: "100 ml" | "100 g" | null;
+  notes: Notes | null;
+  stock: number;
+  image: string | null;
+  isActive: boolean;
 };
 export type Utm = { source?: string; medium?: string; campaign?: string };
 export type OrderStatus = "new" | "shipping" | "done" | "cancelled";
-export type Review = { id: string; stars: number; name: string; body: string; reply: string | null; createdAt: string };
+export type Review = {
+  id: string;
+  stars: number;
+  name: string;
+  body: string;
+  reply: string | null;
+  createdAt: string;
+};
 export type User = { id: string; phone: string };
 export type ApiError = { error: { code: string; message: string } };
 export type OrderInput = {
   customer: { name: string; phone: string; address: string; note?: string };
   paymentMethod: "cod" | "bank";
   items: { productId: string; qty: number; scent?: Scent }[];
-  couponCode?: string; utm?: Utm;
+  couponCode?: string;
+  utm?: Utm;
 };
-export type OrderReceipt = { code: string; subtotalVnd: number; shippingVnd: number; discountVnd: number; totalVnd: number };
-export type OrderLookup = { code: string; status: OrderStatus; totalVnd: number; items: { name: string; qty: number; priceVnd: number }[]; createdAt: string };
+export type OrderReceipt = {
+  code: string;
+  subtotalVnd: number;
+  shippingVnd: number;
+  discountVnd: number;
+  totalVnd: number;
+};
+export type OrderLookup = {
+  code: string;
+  status: OrderStatus;
+  totalVnd: number;
+  items: { name: string; qty: number; priceVnd: number }[];
+  createdAt: string;
+};
 export type ProductSort = "popular" | "price_asc" | "unit_asc";
 export type ProductsResponse = { products: Product[] };
-export type ProductResponse = { product: Product; related: Product[]; reviews: Review[] };
+export type ProductResponse = {
+  product: Product;
+  related: Product[];
+  reviews: Review[];
+};
 export type SubscribeInput = { email: string; utm?: Utm };
 export type SubscribeResponse = { ok: true; couponCode: "WELCOME10" };
-export type ReviewInput = { productId: string; stars: number; name: string; body: string };
+export type ReviewInput = {
+  productId: string;
+  stars: number;
+  name: string;
+  body: string;
+};
 export type ReviewResponse = { ok: true; status: "pending" };
-export type QuizInput = { answers: [number, number, number, number, number]; scent: Scent; utm?: Utm };
+export type QuizInput = {
+  answers: [number, number, number, number, number];
+  scent: Scent;
+  utm?: Utm;
+};
 export type OkResponse = { ok: true };
 export type LoginInput = { phone: string; password: string };
 export type RegisterInput = LoginInput & { confirmPassword: string };
@@ -38,4 +82,11 @@ export type ForgotResponse = { ok: true; resendAfterSec: 60 };
 export type VerifyOtpInput = { phone: string; otp: string };
 export type VerifyOtpResponse = { ok: true; resetToken: string };
 export type ResetInput = RegisterInput & { resetToken: string };
-export type AuthErrorCode = "PHONE_TAKEN" | "BAD_CREDENTIALS" | "WEAK_PASSWORD" | "PASSWORD_MISMATCH" | "OTP_INVALID" | "OTP_EXPIRED" | "TOO_MANY_ATTEMPTS";
+export type AuthErrorCode =
+  | "PHONE_TAKEN"
+  | "BAD_CREDENTIALS"
+  | "WEAK_PASSWORD"
+  | "PASSWORD_MISMATCH"
+  | "OTP_INVALID"
+  | "OTP_EXPIRED"
+  | "TOO_MANY_ATTEMPTS";
