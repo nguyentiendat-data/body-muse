@@ -3,7 +3,7 @@
 Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định đã đưa ra.
 
 - [x] Giai đoạn 1: khung dự án và dữ liệu
-- [ ] Giai đoạn 2: cơ sở dữ liệu và API
+- [x] Giai đoạn 2: cơ sở dữ liệu và API
 - [ ] Giai đoạn 3: tài khoản khách hàng (OTP)
 - [ ] Giai đoạn 4: trang quản trị
 - [ ] Giai đoạn 5: giao diện khách
@@ -18,3 +18,9 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 - Không thay đổi ảnh public hoặc design. Giữ trang chủ tạm đến giai đoạn 5.
 - npm install báo 31 cảnh báo bảo mật dependency; cần kiểm tra và xử lý trong giai đoạn 6, không tự nâng major bằng audit fix --force.
 - Tiếp theo: giai đoạn 2 (schema Postgres, seed, API). Chưa có DATABASE_URL; chưa kiểm chứng với Neon thật.
+
+### Giai đoạn 2 — hoàn tất mã nguồn
+- Schema Drizzle đầy đủ, kết nối Neon khởi tạo khi có request; seed idempotent không ghi đè giá/tồn kho đã sửa. Thêm bảng rate_limits/reset_tokens phục vụ nhiều instance và reset một lần.
+- API sản phẩm, đơn, tra cứu, email, đánh giá và quiz; Zod, lỗi tiếng Việt, giới hạn POST 10/phút/IP. Đơn transaction khóa hàng theo thứ tự, khóa theo số điện thoại để chống dùng coupon đồng thời, sequence mã đơn và snapshot giá.
+- Chuẩn bị đọc phiên khách để gắn user_id; tài khoản triển khai tiếp ở giai đoạn 3.
+- `npm run build` không cần DATABASE_URL và `npm run lint` đạt. Chưa chạy db:push/db:seed hay kiểm thử transaction trên Neon vì chưa có chuỗi kết nối; cần làm khi cấu hình môi trường.
