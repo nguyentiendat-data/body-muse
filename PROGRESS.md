@@ -7,7 +7,7 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 - [x] Giai đoạn 3: tài khoản khách hàng (OTP)
 - [x] Giai đoạn 4: trang quản trị
 - [x] Giai đoạn 5: giao diện khách
-- [ ] Giai đoạn 6: bảo mật, chất lượng, kiểm tra
+- [x] Giai đoạn 6: bảo mật, chất lượng, kiểm tra (kiểm thử cục bộ; giới hạn xem bên dưới)
 - [ ] Giai đoạn 7: deploy Vercel
 
 ## Ghi chú và quyết định
@@ -44,3 +44,11 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 - Mock qua NEXT_PUBLIC_USE_MOCK=1: danh mục, đơn/tồn kho/coupon/tra cứu, subscribe/quiz, tài khoản lưu bm_mock_users với PBKDF2 (không lưu mật khẩu rõ), phiên demo, OTP 123456 và reset một lần. Dữ liệu mock chỉ ở trình duyệt, không vào admin DB.
 - Thành phần/cách dùng chính thức, liên hệ, ngân hàng/QR để [placeholder]. Không tạo thông tin thương mại chưa xác minh; checkout nhắc không chuyển tiền.
 - Build và npm run check đạt. Tiếp theo: rà soát bảo mật, kiểm thử và tối ưu giai đoạn 6.
+
+### Giai đoạn 6 — kiểm tra cục bộ hoàn tất
+- Header an toàn, kiểm tra origin, admin timingSafeEqual, JWT tách purpose, CSV chống công thức, mã lỗi mật khẩu đúng hợp đồng. Giới hạn đăng nhập giữ cửa sổ 15 phút và khóa 15 phút từ lần sai thứ 5.
+- Nâng Drizzle ORM/Kit, Zod, Vitest/Vite, PostCSS theo audit; yêu cầu Node >=22.12.0 cho bộ kiểm thử mới. `npm audit --omit=dev`: 0 lỗ hổng runtime; còn 22 moderate ở công cụ phát triển. Định dạng source để bàn giao.
+- `npm run check` đạt (lint, strict typecheck, 10 Vitest). `npm run test:e2e` build production mock rồi 8/8 kịch bản Chrome đạt (mobile 390 và desktop), kiểm tra ảnh giải mã, UTM, mua hàng/tra cứu, tài khoản/OTP, quiz, chặn admin/origin.
+- Lighthouse mobile: DevTools throttling trực tiếp 94/100/100/100; mô phỏng mặc định 86/100/100/100, vẫn dưới mục tiêu performance 90 ở phương pháp mặc định. Cần đo/tối ưu tiếp trên Preview thật. Chi tiết và phương pháp đầy đủ trong QA.md.
+- Tối ưu server component trang chủ, validation tải khi cần, AVIF/WebP và font; public/design không đổi. Khác mẫu: placeholder thông tin chưa xác minh, Messenger ẩn khi chưa có Page, admin dùng tab URL; không bảo đảm pixel-perfect.
+- Chưa kiểm thử tích hợp Postgres (transaction/429/UTM admin/OTP thật) do thiếu DATABASE_URL. Giai đoạn 7 tiếp theo: hoàn thiện tài liệu và cấu hình deploy, không giả nhận đã deploy.
