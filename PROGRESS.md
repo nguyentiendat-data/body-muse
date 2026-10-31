@@ -8,7 +8,7 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 - [x] Giai đoạn 4: trang quản trị
 - [x] Giai đoạn 5: giao diện khách
 - [x] Giai đoạn 6: bảo mật, chất lượng, kiểm tra (kiểm thử cục bộ; giới hạn xem bên dưới)
-- [ ] Giai đoạn 7: deploy Vercel
+- [ ] Giai đoạn 7: đã chuẩn bị deploy Vercel; chưa có Neon/Vercel Preview để xác minh thực tế
 
 ## Ghi chú và quyết định
 ### Giai đoạn 1 — hoàn tất
@@ -52,3 +52,11 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 - Lighthouse mobile: DevTools throttling trực tiếp 94/100/100/100; mô phỏng mặc định 86/100/100/100, vẫn dưới mục tiêu performance 90 ở phương pháp mặc định. Cần đo/tối ưu tiếp trên Preview thật. Chi tiết và phương pháp đầy đủ trong QA.md.
 - Tối ưu server component trang chủ, validation tải khi cần, AVIF/WebP và font; public/design không đổi. Khác mẫu: placeholder thông tin chưa xác minh, Messenger ẩn khi chưa có Page, admin dùng tab URL; không bảo đảm pixel-perfect.
 - Chưa kiểm thử tích hợp Postgres (transaction/429/UTM admin/OTP thật) do thiếu DATABASE_URL. Giai đoạn 7 tiếp theo: hoàn thiện tài liệu và cấu hình deploy, không giả nhận đã deploy.
+
+### Giai đoạn 7 — chuẩn bị hoàn tất, triển khai thực tế còn chờ
+- README có chạy local/mock/Postgres, bảng toàn bộ biến môi trường, 7 bước deploy và kiểm tra sau deploy. .env.example không chứa khóa; .gitignore chặn mọi .env* trừ .env.example.
+- CLI Drizzle và seed đọc .env.local/.env bằng Node, ưu tiên biến môi trường có sẵn. Kết nối DB lazy, driver Neon Pool dùng Node có WebSocket; transaction Node, middleware jose Edge. Không ghi file ứng dụng khi chạy.
+- Build production bàn giao đã chạy với DATABASE_URL trống và NEXT_PUBLIC_USE_MOCK trống: đạt; npm run check đạt (lint/typecheck/10 tests). Bản .next cuối cùng là chế độ API thật, không phải build mock của E2E.
+- Chưa chạy db:push/db:seed với Neon; chưa có Vercel Preview; chưa push remote. Repo origin đã có, commit giữ trên main theo yêu cầu. Không có .env bí mật được tạo/commit.
+- Cần tiếp tục khi có cấu hình: tạo Neon/Vercel, thêm DATABASE_URL/ADMIN_PASSWORD/SESSION_SECRET, đẩy nhánh và deploy theo README, chạy schema/seed đúng môi trường, xác minh transaction/tồn kho/429/OTP/UTM trong admin trên HTTPS, đo Lighthouse Preview (mô phỏng mặc định hiện 86, mục tiêu >=90).
+- Các placeholder nội dung/QR/ngân hàng/liên hệ và TODO nhà cung cấp SMS giữ rõ ràng cho nhóm bổ sung. Giao diện giữ phong cách/màu/font của mẫu, đã xem screenshot mobile; không khẳng định trùng từng pixel.
