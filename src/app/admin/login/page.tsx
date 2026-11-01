@@ -1,9 +1,19 @@
 import { AdminForm } from "@/components/admin-controls";
-export default function Login() {
+import { safeAdminNext } from "@/lib/admin-redirect";
+export default async function Login({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string | string[] }>;
+}) {
+  const { next } = await searchParams;
   return (
     <main className="max-w-md mx-auto p-8">
       <h1 className="text-3xl font-display mb-8">Đăng nhập quản trị</h1>
-      <AdminForm endpoint="/api/admin/login" mode="POST">
+      <AdminForm
+        endpoint="/api/admin/login"
+        mode="POST"
+        redirectTo={safeAdminNext(next)}
+      >
         <label>
           Mật khẩu quản trị
           <input

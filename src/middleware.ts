@@ -1,10 +1,8 @@
 import { jwtVerify } from "jose";
 import { NextRequest, NextResponse } from "next/server";
 export async function middleware(request: NextRequest) {
-  if (
-    request.nextUrl.pathname === "/admin/login" ||
-    request.nextUrl.pathname === "/api/admin/login"
-  )
+  const { pathname, search } = request.nextUrl;
+  if (pathname === "/admin/login" || pathname === "/api/admin/login")
     return NextResponse.next();
   try {
     const secret = process.env.SESSION_SECRET;
@@ -17,6 +15,11 @@ export async function middleware(request: NextRequest) {
     if (payload.purpose !== "admin") throw new Error();
     return NextResponse.next();
   } catch {
+    if (!pathname.startsWith("/api/")) {
+      const login = new URL("/admin/login", request.url);
+      login.searchParams.set("next", pathname + search);
+      return NextResponse.redirect(login, 302);
+    }
     return NextResponse.json(
       {
         error: {

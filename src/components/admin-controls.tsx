@@ -5,10 +5,12 @@ export function AdminForm({
   endpoint,
   children,
   mode = "PATCH",
+  redirectTo = "/admin",
 }: {
   endpoint: string;
   children: React.ReactNode;
   mode?: "POST" | "PATCH";
+  redirectTo?: string;
 }) {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
@@ -40,7 +42,7 @@ export function AdminForm({
           const result = await response.json();
           if (!response.ok) throw new Error(result.error.message);
           setMessage("Đã lưu.");
-          if (endpoint.endsWith("/login")) router.push("/admin");
+          if (endpoint.endsWith("/login")) router.push(redirectTo);
           else router.refresh();
         } catch (error) {
           setMessage(
