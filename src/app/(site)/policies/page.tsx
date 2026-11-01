@@ -1,3 +1,4 @@
+import { siteConfig } from "@/lib/site-config";
 export const metadata = {
   title: "Chính sách | BODY MUSE",
   description:
@@ -31,11 +32,11 @@ export default function Page() {
           ],
           [
             "Quyền đối với dữ liệu",
-            "Bạn có thể liên hệ [Email của nhóm] để yêu cầu xem, sửa hoặc xóa dữ liệu. Thời hạn lưu trữ và đơn vị quản lý dữ liệu: [Nhóm bổ sung]. Không sử dụng thông tin nhạy cảm thật để thử nghiệm.",
+            `Bạn có thể liên hệ ${siteConfig.email} để yêu cầu xem, sửa hoặc xóa dữ liệu. Thời hạn lưu trữ và đơn vị quản lý dữ liệu: [Nhóm bổ sung]. Không sử dụng thông tin nhạy cảm thật để thử nghiệm.`,
           ],
           [
             "Liên hệ",
-            "Email: [Email của nhóm]. Địa chỉ: [Địa chỉ liên hệ]. Messenger sẽ hiện khi nhóm cấu hình trang chính thức.",
+            `Email: ${siteConfig.email}. Fanpage: ${siteConfig.facebookUrl}. Messenger: ${siteConfig.messengerUrl}. Địa chỉ: [Địa chỉ liên hệ].`,
           ],
         ].map(([title, body]) => (
           <section className="panel" key={title}>

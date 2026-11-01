@@ -1,6 +1,6 @@
 # Hướng dẫn cho Codex
 
-Đây là dự án website BODY MUSE (đồ án E-marketing). Việc của bạn là làm xong toàn bộ website.
+Đây là dự án website BODY MUSE (đồ án Công nghệ marketing). Việc của bạn là làm xong toàn bộ website.
 
 1. Đọc `CODEX_PROMPT.md` ở gốc repo: đó là đề bài đầy đủ (7 giai đoạn). Làm đúng theo đó.
 2. Đọc `PROGRESS.md` để biết đã làm tới đâu. Nếu đang dở thì làm tiếp, không làm lại từ đầu.

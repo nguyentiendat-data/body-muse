@@ -60,3 +60,8 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 - Chưa chạy db:push/db:seed với Neon; chưa có Vercel Preview; chưa push remote. Repo origin đã có, commit giữ trên main theo yêu cầu. Không có .env bí mật được tạo/commit.
 - Cần tiếp tục khi có cấu hình: tạo Neon/Vercel, thêm DATABASE_URL/ADMIN_PASSWORD/SESSION_SECRET, đẩy nhánh và deploy theo README, chạy schema/seed đúng môi trường, xác minh transaction/tồn kho/429/OTP/UTM trong admin trên HTTPS, đo Lighthouse Preview (mô phỏng mặc định hiện 86, mục tiêu >=90).
 - Các placeholder nội dung/QR/ngân hàng/liên hệ và TODO nhà cung cấp SMS giữ rõ ràng cho nhóm bổ sung. Giao diện giữ phong cách/màu/font của mẫu, đã xem screenshot mobile; không khẳng định trùng từng pixel.
+
+### Thông tin nhóm (nhánh chore/site-info)
+- Môn học đúng là Công nghệ marketing (không phải E-marketing). Thông tin nhóm, email, fanpage, Messenger, slogan nằm duy nhất ở `src/lib/site-config.ts`; footer, trang Về chúng mình, chính sách và nút Messenger đọc từ đó.
+- Nút Messenger luôn hiện, dùng `messengerUrl?ref=<utm_source hoặc web>`; bỏ biến `NEXT_PUBLIC_MESSENGER_PAGE`.
+- Placeholder còn chờ nhóm cung cấp: địa chỉ liên hệ, chính sách đổi trả chính thức, thời hạn lưu trữ và đơn vị quản lý dữ liệu, tài khoản ngân hàng/QR chuyển khoản, thành phần và hướng dẫn sử dụng sản phẩm, danh sách thành viên.

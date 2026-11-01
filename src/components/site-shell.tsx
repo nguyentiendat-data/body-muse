@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { AuthProvider, useAuth } from "@/lib/session-client";
 import { CartProvider, useCart } from "@/lib/cart";
 import { captureUtm } from "@/lib/utm";
+import { messengerLink, siteConfig } from "@/lib/site-config";
 import { startAnalytics } from "@/lib/analytics";
 import { isMock } from "@/lib/client-api";
 import { CartContent } from "./shopping";
@@ -207,12 +208,10 @@ export function Messenger() {
   useEffect(() => {
     setSource(captureUtm().source || "web");
   }, []);
-  const page = process.env.NEXT_PUBLIC_MESSENGER_PAGE;
-  if (!page) return null;
   return (
     <a
       className="btn primary fixed z-30 bottom-24 right-4 shadow-lg"
-      href={`https://m.me/${encodeURIComponent(page)}?ref=${encodeURIComponent(source)}`}
+      href={messengerLink(source)}
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -235,6 +234,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               <Link className="font-display text-3xl" href="/">
                 BODY MUSE
               </Link>
+              <p className="mt-3 font-bold">{siteConfig.slogan}</p>
               <p className="mt-3">
                 Mùi hương của riêng bạn,
                 <br />
@@ -251,9 +251,24 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
                 Bản demo cho đồ án, không thu tiền thật
               </p>
               <p className="mt-3 text-sm">
-                Giá và chính sách là giả định cho đồ án E-marketing.
+                Giá và chính sách là giả định cho đồ án môn {siteConfig.course},{" "}
+                {siteConfig.teamName}.
               </p>
-              <p className="mt-3 text-sm">Liên hệ: [Email của nhóm]</p>
+              <p className="mt-3 text-sm">
+                Liên hệ:{" "}
+                <a className="underline" href={`mailto:${siteConfig.email}`}>
+                  {siteConfig.email}
+                </a>
+                {" · "}
+                <a
+                  className="underline"
+                  href={siteConfig.facebookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Facebook
+                </a>
+              </p>
             </div>
           </div>
         </footer>

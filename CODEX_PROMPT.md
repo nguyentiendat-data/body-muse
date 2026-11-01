@@ -4,7 +4,7 @@ VAI TRÒ
 Bạn là kỹ sư full-stack, làm MỘT MÌNH toàn bộ website: giao diện khách, back-end, cơ sở dữ liệu, trang quản trị, tài khoản khách và chuẩn bị để deploy lên Vercel.
 
 DỰ ÁN
-Website bán hàng demo cho BODY MUSE, thương hiệu nước hoa và chăm sóc cơ thể dành cho nam (đồ án E-marketing). Website là trang đích cho bài đăng TikTok, Facebook, Instagram, Threads, nên mọi đơn hàng, email và kết quả trắc nghiệm phải lưu kèm UTM. Không thu tiền thật: chỉ COD và chuyển khoản thủ công. Toàn bộ giao diện và thông báo lỗi bằng tiếng Việt, ưu tiên mobile (390 px), khách chủ yếu là nam 18 đến 30 tuổi dùng điện thoại.
+Website bán hàng demo cho BODY MUSE, thương hiệu nước hoa và chăm sóc cơ thể dành cho nam (đồ án Công nghệ marketing). Website là trang đích cho bài đăng TikTok, Facebook, Instagram, Threads, nên mọi đơn hàng, email và kết quả trắc nghiệm phải lưu kèm UTM. Không thu tiền thật: chỉ COD và chuyển khoản thủ công. Toàn bộ giao diện và thông báo lỗi bằng tiếng Việt, ưu tiên mobile (390 px), khách chủ yếu là nam 18 đến 30 tuổi dùng điện thoại.
 
 CÔNG NGHỆ
 Next.js 15 (App Router), TypeScript strict, Tailwind CSS 3, Drizzle ORM, Postgres (Neon, nối qua Vercel), Zod, jose, Vitest, npm. Font qua next/font/google (subset vietnamese), gán vào biến CSS --font-fraunces và --font-be-vietnam (tailwind.config.ts đã dùng hai biến này). Không thêm thư viện giao diện nặng.
@@ -121,7 +121,7 @@ HÀNH VI VÀ ĐO LƯỜNG (quan trọng với báo cáo đo lường của nhóm
 - UTM: src/lib/utm.ts đọc utm_source, utm_medium, utm_campaign từ URL, lưu localStorage khóa bm_utm (lần chạm đầu tiên, hết hạn 30 ngày) và gắn vào mọi request POST.
 - GA4 (NEXT_PUBLIC_GA_ID) và Meta Pixel (NEXT_PUBLIC_META_PIXEL_ID): chỉ tải sau khi khách đồng ý cookie. Sự kiện: view_item / ViewContent, add_to_cart / AddToCart, begin_checkout / InitiateCheckout, purchase / Purchase (value theo VND, currency VND), quiz_complete (tùy chỉnh). Thiếu biến môi trường thì bỏ qua êm, không báo lỗi.
 - Banner đồng ý cookie ở lần vào đầu tiên.
-- Nút Messenger nổi: https://m.me/NEXT_PUBLIC_MESSENGER_PAGE?ref=utm_source (không có thì ref=web).
+- Nút Messenger nổi: messengerUrl trong src/lib/site-config.ts (https://m.me/61595529898398)?ref=utm_source (không có thì ref=web).
 - Ghi rõ "Bản demo cho đồ án, không thu tiền thật" ở footer và trang thanh toán.
 - Khi NEXT_PUBLIC_USE_MOCK=1 thì giao diện chạy bằng dữ liệu từ src/data/products.ts, tài khoản giả lưu localStorage khóa bm_mock_users, OTP luôn là 123456 (để xem thử khi chưa có DB).
 
