@@ -62,6 +62,6 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 - Các placeholder nội dung/QR/ngân hàng/liên hệ và TODO nhà cung cấp SMS giữ rõ ràng cho nhóm bổ sung. Giao diện giữ phong cách/màu/font của mẫu, đã xem screenshot mobile; không khẳng định trùng từng pixel.
 
 ### Thông tin nhóm (nhánh chore/site-info)
-- Môn học đúng là Công nghệ marketing (không phải E-marketing). Thông tin nhóm, email, fanpage, Messenger, slogan nằm duy nhất ở `src/lib/site-config.ts`; footer, trang Về chúng mình, chính sách và nút Messenger đọc từ đó.
-- Nút Messenger luôn hiện, dùng `messengerUrl?ref=<utm_source hoặc web>`; bỏ biến `NEXT_PUBLIC_MESSENGER_PAGE`.
+- Môn học: Công nghệ marketing, Nhóm 1. Thông tin nhóm, email, fanpage, Messenger, slogan nằm duy nhất ở `src/lib/site-config.ts`; footer, trang Về chúng mình, chính sách và nút Messenger đọc từ đó.
+- Nút Messenger luôn hiện, dùng `messengerUrl?ref=<utm_source hoặc web>`; page lấy từ `NEXT_PUBLIC_MESSENGER_PAGE` (mặc định 61595529898398).
 - Placeholder còn chờ nhóm cung cấp: địa chỉ liên hệ, chính sách đổi trả chính thức, thời hạn lưu trữ và đơn vị quản lý dữ liệu, tài khoản ngân hàng/QR chuyển khoản, thành phần và hướng dẫn sử dụng sản phẩm, danh sách thành viên.

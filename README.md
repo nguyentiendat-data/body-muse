@@ -56,6 +56,7 @@ Admin: `/admin/login`. Tài khoản khách ở `/register`, `/login`, `/forgot-p
 | `NEXT_PUBLIC_OTP_DEMO` | Không | `1` mới hiện dòng gợi ý OTP demo. Đồng bộ với `OTP_MODE`. |
 | `NEXT_PUBLIC_GA_ID` | Không | GA4 Measurement ID (`G-…`); chỉ tải sau đồng ý cookie. |
 | `NEXT_PUBLIC_META_PIXEL_ID` | Không | ID Meta Pixel dạng số; chỉ tải sau đồng ý cookie. |
+| `NEXT_PUBLIC_MESSENGER_PAGE` | Không | Page ID Messenger (61595529898398); bỏ trống thì dùng mặc định trong `src/lib/site-config.ts`. |
 
 Tạo khóa phiên bằng `node -e "console.log(require('node:crypto').randomBytes(32).toString('base64'))"` rồi đưa vào môi trường riêng. Chỉ các biến `NEXT_PUBLIC_` xuất hiện trong bundle trình duyệt; tuyệt đối không dùng tiền tố này cho khóa bí mật. Biến công khai được Next.js chốt lúc build: sửa xong cần build/redeploy.
 
@@ -82,7 +83,7 @@ Lệnh này tạo **bản build mock**, tự chạy server kiểm thử cổng 3
 1. Đẩy nhánh `main` đã commit lên GitHub. Kiểm tra không có `.env*` chứa khóa (chỉ commit `.env.example`).
 2. Vercel → **Import Project**, chọn repo BODY MUSE, preset **Next.js**, thư mục gốc repo. Install `npm ci`, Build `npm run build`, Output mặc định Next.js. Chọn Node đáp ứng >=22.12.0.
 3. Trong **Storage**, tạo/kết nối Postgres qua **Neon** và liên kết với project. Lấy chuỗi **pooled** có SSL, ánh xạ vào `DATABASE_URL`. Dùng DB/branch riêng cho Preview nếu không muốn Preview ghi vào dữ liệu Production.
-4. Thêm `DATABASE_URL`, `ADMIN_PASSWORD`, `SESSION_SECRET` cho các môi trường cần dùng. Để trống `NEXT_PUBLIC_USE_MOCK`; OTP demo có thể giữ mặc định. Điền `NEXT_PUBLIC_SITE_URL` khi biết URL deploy; đo lường tùy chọn. Thông tin nhóm, email, fanpage và Messenger nằm trong `src/lib/site-config.ts`.
+4. Thêm `DATABASE_URL`, `ADMIN_PASSWORD`, `SESSION_SECRET` cho các môi trường cần dùng. Để trống `NEXT_PUBLIC_USE_MOCK`; OTP demo có thể giữ mặc định. Điền `NEXT_PUBLIC_SITE_URL` khi biết URL deploy; đo lường tùy chọn; `NEXT_PUBLIC_MESSENGER_PAGE=61595529898398`. Thông tin nhóm, email, fanpage và Messenger nằm trong `src/lib/site-config.ts`.
 5. **Deploy**. Build phải đạt kể cả khi DB chưa có bảng vì app chỉ kết nối DB khi có request. Chưa đặt đơn lúc này; cần nạp schema và dữ liệu trước.
 6. Tại checkout local, dùng Vercel CLI liên kết đúng project, chạy `vercel env pull .env.local` (chọn đúng môi trường; dùng `--environment=production` nếu nạp Production). Kiểm tra project/môi trường đích rồi chạy `npm run db:push` và `npm run db:seed`. Đây là bước đổi schema DB: dùng DB demo riêng và kiểm tra diff Drizzle trước khi chấp nhận thay đổi.
 7. **Redeploy** sau khi bổ sung URL/biến công khai. Kiểm tra các luồng dưới đây trên URL HTTPS Preview; sau khi đạt mới chuyển sang Production.
