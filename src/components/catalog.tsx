@@ -1,6 +1,8 @@
 "use client";
 import { CampaignImage } from "./campaign-image";
 import Link from "next/link";
+import { Icon } from "./ui-icon";
+import { scentNames } from "@/data/products";
 import { useEffect, useState } from "react";
 import type { Product } from "@/types/api";
 import { request } from "@/lib/client-api";
@@ -44,6 +46,8 @@ export function ProductCard({ product }: { product: Product }) {
     <article className="product-card">
       <Link href={`/shop/${product.slug}`} className="block">
         <div className="photo">
+          {product.id === "BM-13" && <span className="product-badge">Mới</span>}
+          {product.id === "BM-11" && <span className="product-badge">Bộ thử 3 mùi</span>}
           {product.image && (
             <CampaignImage
               src={product.image}
@@ -53,7 +57,7 @@ export function ProductCard({ product }: { product: Product }) {
           )}
         </div>
         <div className="p-3 md:p-5">
-          <p className="text-sm mb-1">{product.size}</p>
+          <p className="product-kicker">{product.scent === "all" ? "BỘ SƯU TẬP" : scentNames[product.scent]} <span>· {product.size}</span></p>
           <h3 className="font-bold leading-snug min-h-12">{product.name}</h3>
           <p className="text-cobalt-text font-bold text-xl mt-3">
             {money(product.priceVnd)}
@@ -67,11 +71,11 @@ export function ProductCard({ product }: { product: Product }) {
       </Link>
       <div className="px-3 pb-4 md:px-5">
         <button
-          className="btn w-full"
+          className="btn card-add w-full"
           disabled={product.stock < 1}
           onClick={() => cart.add(product)}
         >
-          {product.stock < 1 ? "Tạm hết hàng" : "Thêm vào giỏ"}
+          {product.stock < 1 ? "Tạm hết hàng" : <><span>Thêm vào giỏ</span><Icon name="bag" size={17}/></>}
         </button>
       </div>
     </article>

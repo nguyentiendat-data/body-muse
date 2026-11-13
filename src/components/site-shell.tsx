@@ -9,125 +9,34 @@ import { messengerLink, siteConfig } from "@/lib/site-config";
 import { startAnalytics } from "@/lib/analytics";
 import { isMock } from "@/lib/client-api";
 import { CartContent } from "./shopping";
+import { Icon } from "./ui-icon";
+const storeCategories = [["xit-khu-mui", "Xịt khử mùi"], ["tam-goi", "Tắm & gội"], ["duong-the", "Dưỡng thể"], ["lan-nuoc-hoa", "Lăn & nước hoa"], ["bo-qua", "Bộ quà tặng"]];
 function Header() {
-  const { user, logout } = useAuth();
-  const cart = useCart();
-  const [menu, setMenu] = useState(false);
-  const [error, setError] = useState("");
-  return (
-    <>
-      <div className="bg-ink text-cream text-center px-4 py-2 text-sm">
-        Miễn phí giao hàng từ 399.000đ · Đổi trả trong 30 ngày
-      </div>
-      <header className="site-header wrap flex items-center justify-between gap-3 py-4">
-        <button
-          className="btn lg:hidden !px-3"
-          aria-label="Mở menu"
-          aria-expanded={menu}
-          aria-controls="mobile-menu"
-          onClick={() => setMenu(!menu)}
-        >
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            aria-hidden="true"
-          >
-            <path d="M4 7h16M4 12h16M4 17h16" />
-          </svg>
-        </button>
-        <Link href="/" className="flex items-center gap-3">
-          <Image
-            src="/logo-badge.png"
-            alt="Biểu trưng BODY MUSE"
-            width={48}
-            height={48}
-            className="rounded-full"
-          />
-          <span className="brand-wordmark text-lg md:text-2xl">BODY MUSE</span>
-        </Link>
-        <nav
-          className="hidden lg:flex gap-6 font-semibold"
-          aria-label="Menu chính"
-        >
-          <Link href="/shop">Cửa hàng</Link>
-          <Link href="/quiz">Tìm mùi của bạn</Link>
-          <Link href="/about">Về chúng mình</Link>
-        </nav>
-        <div className="flex gap-3 items-center">
-          <div className="hidden lg:block">
-            {user ? (
-              <>
-                <span>
-                  {user.phone.slice(0, 3)}****{user.phone.slice(-3)}
-                </span>
-                <button
-                  className="ml-3 underline min-h-12"
-                  onClick={() =>
-                    logout().catch((error) => setError(error.message))
-                  }
-                >
-                  Đăng xuất
-                </button>
-              </>
-            ) : (
-              <Link href="/login">Đăng nhập</Link>
-            )}
-          </div>
-          <button
-            className="btn !px-3 md:!px-5"
-            onClick={() => cart.setOpen(true)}
-            aria-label={`Mở giỏ hàng, ${cart.items.reduce((sum, item) => sum + item.qty, 0)} sản phẩm`}
-          >
-            Giỏ ({cart.items.reduce((sum, item) => sum + item.qty, 0)})
-          </button>
-        </div>
-      </header>
-      {menu && (
-        <nav
-          id="mobile-menu"
-          className="wrap grid gap-3 pb-5"
-          aria-label="Menu điện thoại"
-          onClick={() => setMenu(false)}
-        >
-          <Link href="/shop">Cửa hàng</Link>
-          <Link href="/quiz">Tìm mùi của bạn</Link>
-          <Link href="/about">Về chúng mình</Link>
-          <Link href="/track">Tra cứu đơn</Link>
-          {user ? (
-            <>
-              <p>
-                {user.phone.slice(0, 3)}****{user.phone.slice(-3)}
-              </p>
-              <button
-                className="text-left min-h-12"
-                onClick={() =>
-                  logout().catch((error) => setError(error.message))
-                }
-              >
-                Đăng xuất
-              </button>
-            </>
-          ) : (
-            <Link href="/login">Đăng nhập</Link>
-          )}
-        </nav>
-      )}
-      {error && (
-        <p role="alert" className="wrap text-danger">
-          {error}
-        </p>
-      )}
-      {isMock && (
-        <p className="bg-sun text-center p-2 text-sm">
-          Chế độ xem thử · Dữ liệu chỉ lưu trên trình duyệt này
-        </p>
-      )}
-    </>
-  );
+ const { user, logout } = useAuth();
+ const cart = useCart();
+ const [menu, setMenu] = useState(false);
+ const [search, setSearch] = useState(false);
+ const [error, setError] = useState("");
+ const count = cart.items.reduce((sum, item) => sum + item.qty, 0);
+ return <>
+  <div className="announcement">Miễn phí giao hàng từ 399.000đ <span>·</span> Đổi trả trong 30 ngày</div>
+  <header className="store-header">
+   <div className="wrap header-main">
+    <button className="icon-button mobile-only" aria-label="Mở menu" aria-expanded={menu} aria-controls="mobile-menu" onClick={() => setMenu(!menu)}><Icon name={menu ? "close" : "menu"} /></button>
+    <Link href="/" className="brand-lockup"><Image src="/logo-badge.png" alt="Biểu trưng BODY MUSE" width={38} height={38} className="rounded-full" /><span className="brand-wordmark">BODY MUSE<small>OWN YOUR SCENT</small></span></Link>
+    <nav className="header-navigation" aria-label="Menu chính"><Link href="/shop">Cửa hàng</Link><Link href="/quiz">Tìm mùi của bạn</Link><Link href="/about">Câu chuyện thương hiệu</Link></nav>
+    <div className="header-actions"><button className="icon-button" aria-label="Tìm kiếm sản phẩm" aria-expanded={search} aria-controls="header-search" onClick={() => setSearch(!search)}><Icon name="search" /></button>
+     <div className="header-account">{user ? <><span>{user.phone.slice(0,3)}****{user.phone.slice(-3)}</span><button onClick={() => logout().catch(e => setError(e.message))}>Đăng xuất</button></> : <Link href="/login" className="icon-button" aria-label="Đăng nhập"><Icon name="user" /></Link>}</div>
+     <button className="bag-button" onClick={() => cart.setOpen(true)} aria-label={"Mở giỏ hàng, " + count + " sản phẩm"}><Icon name="bag" /><span className="bag-count">{count}</span></button>
+    </div>
+   </div>
+   {search && <form id="header-search" className="wrap header-search" action="/shop"><label className="sr-only" htmlFor="search-products">Tìm sản phẩm</label><Icon name="search"/><input id="search-products" name="q" placeholder="Tìm tên sản phẩm, mùi hương…" maxLength={100} autoFocus /><button className="btn primary">Tìm kiếm</button></form>}
+   <nav className="category-navigation" aria-label="Danh mục sản phẩm"><div className="wrap"><Link href="/shop">Tất cả sản phẩm</Link>{storeCategories.map(([key,label])=><Link key={key} href={"/shop?category="+key}>{label}</Link>)}<Link href="/#sale" className="sale-nav">Ưu đãi 11.11</Link></div></nav>
+   {menu && <nav id="mobile-menu" className="mobile-menu wrap" aria-label="Menu điện thoại" onClick={()=>setMenu(false)}><Link href="/shop">Cửa hàng</Link><Link href="/quiz">Tìm mùi của bạn</Link><Link href="/about">Câu chuyện thương hiệu</Link><Link href="/track">Tra cứu đơn</Link>{user ? <button onClick={()=>logout().catch(e=>setError(e.message))}>Đăng xuất</button> : <Link href="/login">Đăng nhập</Link>}</nav>}
+  </header>
+  {error && <p role="alert" className="wrap text-danger">{error}</p>}
+  {isMock && <p className="demo-strip">Chế độ xem thử · Dữ liệu chỉ lưu trên trình duyệt này</p>}
+ </>;
 }
 function CartDrawer() {
   const cart = useCart();
@@ -210,12 +119,12 @@ export function Messenger() {
   }, []);
   return (
     <a
-      className="btn primary fixed z-30 bottom-24 right-4 shadow-lg"
+      className="messenger-button" aria-label="Nhắn Messenger"
       href={messengerLink(source)}
       target="_blank"
       rel="noopener noreferrer"
     >
-      Nhắn Messenger
+      <Icon name="mail" /><span>Hỗ trợ</span>
     </a>
   );
 }
@@ -228,8 +137,8 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
         </a>
         <Header />
         {children}
-        <footer className="bg-ink text-cream mt-16 py-10">
-          <div className="wrap grid md:grid-cols-3 gap-8">
+        <footer className="store-footer">
+          <div className="wrap footer-grid">
             <div>
               <Link className="font-display text-3xl" href="/">
                 BODY MUSE

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "./admin.css";
 export const metadata: Metadata = {
   title: "Quản trị | BODY MUSE",
   robots: { index: false, follow: false },
@@ -10,5 +11,5 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="min-h-screen bg-[#F4EFEA] text-ink">{children}</div>;
+  return <div className="admin-app">{children}</div>;
 }

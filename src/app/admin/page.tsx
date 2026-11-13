@@ -1,348 +1,57 @@
 import Link from "next/link";
-import { count, desc, eq, sql } from "drizzle-orm";
+import { count, desc, eq, sql, and, or, ilike } from "drizzle-orm";
 import { getDb } from "@/db";
-import {
-  orders,
-  products,
-  quizResults,
-  reviews,
-  subscribers,
-} from "@/db/schema";
+import { orders, products, quizResults, reviews, subscribers } from "@/db/schema";
 import { requireAdmin } from "@/lib/admin";
 import { AdminForm, AdminLogout } from "@/components/admin-controls";
-const statuses = {
-  new: "Mới",
-  shipping: "Đang giao",
-  done: "Đã giao",
-  cancelled: "Đã hủy",
-};
-const money = (value: number) => `${value.toLocaleString("vi-VN")}đ`;
-export default async function Admin({
-  searchParams,
-}: {
-  searchParams: Promise<{ tab?: string; status?: string }>;
-}) {
-  await requireAdmin();
-  const { tab = "overview", status } = await searchParams;
-  const navigation = [
-    ["overview", "Tổng quan"],
-    ["orders", "Đơn hàng"],
-    ["products", "Sản phẩm"],
-    ["reviews", "Đánh giá"],
-    ["emails", "Email thu được"],
-  ];
-  if (!process.env.DATABASE_URL)
-    return (
-      <main className="p-8">
-        Chưa cấu hình cơ sở dữ liệu. Vui lòng thêm DATABASE_URL.
-      </main>
-    );
-  const db = getDb();
-  const orderRows = ["overview", "orders"].includes(tab)
-    ? await db
-        .select()
-        .from(orders)
-        .where(
-          status && status in statuses
-            ? eq(orders.status, status as keyof typeof statuses)
-            : undefined,
-        )
-        .orderBy(desc(orders.createdAt))
-        .limit(tab === "overview" ? 10 : 200)
-    : [];
-  const [stats] = await db
-    .select({
-      newOrders: sql<number>`count(*) filter (where status = 'new')::int`,
-      revenue: sql<number>`coalesce(sum(total) filter (where status = 'done'), 0)::int`,
-    })
-    .from(orders);
-  const [emailCount] = await db.select({ value: count() }).from(subscribers);
-  const [quizCount] = await db.select({ value: count() }).from(quizResults);
-  const sources =
-    tab === "overview"
-      ? await db
-          .select({ source: orders.utmSource, value: count() })
-          .from(orders)
-          .groupBy(orders.utmSource)
-      : [];
-  return (
-    <div className="min-h-screen md:flex">
-      <nav
-        aria-label="Quản trị"
-        className="md:w-60 shrink-0 bg-ink text-cream p-6 flex flex-col gap-3"
-      >
-        <Link className="font-display text-2xl mb-6" href="/">
-          BODY MUSE
-        </Link>
-        {navigation.map(([key, name]) => (
-          <Link
-            className={`rounded-xl px-4 py-3 ${tab === key ? "bg-cobalt" : ""}`}
-            key={key}
-            href={`/admin?tab=${key}`}
-          >
-            {name}
-          </Link>
-        ))}
-        <AdminLogout />
-      </nav>
-      <main className="p-5 md:p-10 flex-1 min-w-0">
-        <h1 className="font-display text-4xl mb-8">
-          {navigation.find(([key]) => key === tab)?.[1] || "Tổng quan"}
-        </h1>
-        {tab === "overview" && (
-          <>
-            <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
-              {[
-                ["Đơn mới", stats.newOrders],
-                ["Doanh thu đơn demo đã giao", money(stats.revenue)],
-                ["Email thu được", emailCount.value],
-                ["Làm xong trắc nghiệm", quizCount.value],
-              ].map(([label, value]) => (
-                <section
-                  className="bg-white border-2 border-ink rounded-[20px] p-5"
-                  key={label}
-                >
-                  <p>{label}</p>
-                  <strong className="text-3xl">{value}</strong>
-                </section>
-              ))}
-            </div>
-            <section className="bg-white border-2 border-ink rounded-[20px] p-6 mb-8">
-              <h2 className="text-xl font-bold mb-4">
-                Đơn theo nguồn truy cập
-              </h2>
-              {sources.length ? (
-                sources.map((source) => (
-                  <div
-                    className="flex items-center gap-4 py-2"
-                    key={source.source || "web"}
-                  >
-                    <span className="w-28 break-words">
-                      {source.source || "Trực tiếp"}
-                    </span>
-                    <progress
-                      className="flex-1 accent-cobalt"
-                      value={source.value}
-                      max={Math.max(...sources.map((item) => item.value), 1)}
-                    />
-                    <b>{source.value}</b>
-                  </div>
-                ))
-              ) : (
-                <p>Chưa có đơn hàng.</p>
-              )}
-            </section>
-          </>
-        )}
-        {["overview", "orders"].includes(tab) && (
-          <section className="bg-white border-2 border-ink rounded-[20px] p-5">
-            <h2 className="text-xl font-bold">
-              Đơn hàng {tab === "overview" ? "gần đây" : ""}
-            </h2>
-            <div className="flex flex-wrap gap-4 py-4">
-              <Link href="/api/admin/export?type=orders">Xuất CSV</Link>
-              <Link href="/admin?tab=orders">Tất cả</Link>
-              {Object.entries(statuses).map(([key, label]) => (
-                <Link key={key} href={`/admin?tab=orders&status=${key}`}>
-                  {label}
-                </Link>
-              ))}
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead>
-                  <tr>
-                    {["Mã đơn / Khách", "Tổng", "UTM", "Trạng thái"].map(
-                      (label) => (
-                        <th className="p-3 border-b-2 border-ink" key={label}>
-                          {label}
-                        </th>
-                      ),
-                    )}
-                  </tr>
-                </thead>
-                <tbody>
-                  {orderRows.map((order) => (
-                    <tr key={order.id}>
-                      <td className="p-3 border-b">
-                        <b>{order.code}</b>
-                        <p>
-                          {order.name} · {order.phone}
-                        </p>
-                        <p>{order.address}</p>
-                        <p>{order.note}</p>
-                      </td>
-                      <td className="p-3 border-b">
-                        {money(order.total)}
-                        <p>
-                          {order.paymentMethod === "cod"
-                            ? "COD"
-                            : "Chuyển khoản"}
-                        </p>
-                      </td>
-                      <td className="p-3 border-b">
-                        {order.utmSource || "Trực tiếp"}
-                        <p>{order.utmMedium}</p>
-                        <p>{order.utmCampaign}</p>
-                      </td>
-                      <td className="p-3 border-b">
-                        <AdminForm endpoint={`/api/admin/orders/${order.id}`}>
-                          <label className="sr-only" htmlFor={order.id}>
-                            Trạng thái {order.code}
-                          </label>
-                          <select
-                            id={order.id}
-                            name="status"
-                            defaultValue={order.status}
-                            className="border-2 border-ink rounded-full p-2 bg-sun"
-                          >
-                            {Object.entries(statuses).map(([key, label]) => (
-                              <option key={key} value={key}>
-                                {label}
-                              </option>
-                            ))}
-                          </select>
-                        </AdminForm>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {!orderRows.length && <p className="py-6">Chưa có đơn hàng.</p>}
-            </div>
-          </section>
-        )}
-        {tab === "products" && (
-          <div className="grid lg:grid-cols-2 gap-4">
-            {(await db.select().from(products).orderBy(products.id)).map(
-              (product) => (
-                <section
-                  className="bg-white border-2 border-ink rounded-[20px] p-5"
-                  key={product.id}
-                >
-                  <h2 className="font-bold mb-4">
-                    {product.id} · {product.name}
-                  </h2>
-                  <AdminForm endpoint={`/api/admin/products/${product.id}`}>
-                    <label>
-                      Giá (VND)
-                      <input
-                        className="border rounded p-3 w-full"
-                        name="priceVnd"
-                        type="number"
-                        min="1000"
-                        required
-                        defaultValue={product.priceVnd}
-                      />
-                    </label>
-                    <label>
-                      Tồn kho
-                      <input
-                        className="border rounded p-3 w-full"
-                        name="stock"
-                        type="number"
-                        min="0"
-                        required
-                        defaultValue={product.stock}
-                      />
-                    </label>
-                    <label>
-                      Hiển thị
-                      <select
-                        className="border rounded p-3 w-full"
-                        name="isActive"
-                        defaultValue={String(product.isActive)}
-                      >
-                        <option value="true">Đang bán</option>
-                        <option value="false">Tạm ẩn</option>
-                      </select>
-                    </label>
-                  </AdminForm>
-                </section>
-              ),
-            )}
-          </div>
-        )}
-        {tab === "reviews" && (
-          <div className="grid lg:grid-cols-2 gap-4">
-            {(
-              await db.select().from(reviews).orderBy(desc(reviews.createdAt))
-            ).map((review) => (
-              <section
-                className="bg-white border-2 border-ink rounded-[20px] p-5"
-                key={review.id}
-              >
-                <h2 className="font-bold">
-                  {review.name} · {review.stars}/5 · {review.productId}
-                </h2>
-                <p className="my-4">{review.body}</p>
-                <AdminForm endpoint={`/api/admin/reviews/${review.id}`}>
-                  <label>
-                    Trạng thái
-                    <select
-                      className="border rounded p-3 w-full"
-                      name="status"
-                      defaultValue={review.status}
-                    >
-                      <option value="pending">Chờ duyệt</option>
-                      <option value="approved">Đã duyệt</option>
-                      <option value="rejected">Từ chối</option>
-                    </select>
-                  </label>
-                  <label>
-                    Trả lời
-                    <textarea
-                      className="border rounded p-3 w-full"
-                      name="reply"
-                      maxLength={2000}
-                      defaultValue={review.reply || ""}
-                    />
-                  </label>
-                </AdminForm>
-              </section>
-            ))}
-          </div>
-        )}
-        {tab === "emails" && (
-          <section className="bg-white border-2 border-ink rounded-[20px] p-5">
-            <Link href="/api/admin/export?type=subscribers">
-              Xuất CSV email
-            </Link>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead>
-                  <tr>
-                    <th className="p-3">Email</th>
-                    <th>Nguồn / Chiến dịch</th>
-                    <th>Ngày tạo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {(
-                    await db
-                      .select()
-                      .from(subscribers)
-                      .orderBy(desc(subscribers.createdAt))
-                  ).map((subscriber) => (
-                    <tr key={subscriber.id}>
-                      <td className="p-3 border-t">{subscriber.email}</td>
-                      <td className="border-t">
-                        {subscriber.utmSource || "Trực tiếp"} /{" "}
-                        {subscriber.utmCampaign}
-                      </td>
-                      <td className="border-t">
-                        {subscriber.createdAt.toLocaleDateString("vi-VN", {
-                          timeZone: "Asia/Ho_Chi_Minh",
-                        })}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-        )}
-      </main>
-    </div>
-  );
+import { CampaignImage } from "@/components/campaign-image";
+import { Icon, type IconName } from "@/components/ui-icon";
+
+const statuses = { new: "Mới", shipping: "Đang giao", done: "Đã giao", cancelled: "Đã hủy" };
+const navigation: [string, string, IconName][] = [["overview", "Tổng quan", "grid"], ["orders", "Đơn hàng", "bag"], ["products", "Sản phẩm", "box"], ["reviews", "Đánh giá", "star"], ["emails", "Email thu được", "mail"]];
+const money = (value: number) => value.toLocaleString("vi-VN") + "đ";
+const date = (value: Date) => value.toLocaleDateString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" });
+function Empty({ title, body, icon = "box" }: { title: string; body: string; icon?: IconName }) { return <div className="admin-empty"><span><Icon name={icon} size={27}/></span><h3>{title}</h3><p>{body}</p></div>; }
+function OrderTable({ rows }: { rows: (typeof orders.$inferSelect)[] }) {
+ return rows.length ? <div className="admin-table-scroll"><table className="admin-table"><thead><tr><th>Đơn hàng / Khách hàng</th><th>Giá trị</th><th>Nguồn truy cập</th><th>Trạng thái</th><th>Cập nhật</th></tr></thead><tbody>{rows.map(order => <tr key={order.id}>
+  <td><strong className="order-code">{order.code}</strong><p>{order.name}</p><small>{date(order.createdAt)}</small><details className="order-details"><summary>Thông tin giao hàng</summary><div><p>{order.phone}</p><p>{order.address}</p>{order.note && <p>Ghi chú: {order.note}</p>}</div></details></td>
+  <td><strong>{money(order.total)}</strong><p>{order.paymentMethod === "cod" ? "Thanh toán khi nhận" : "Chuyển khoản"}</p></td>
+  <td><span className="source-tag">{order.utmSource || "Trực tiếp"}</span>{order.utmMedium && <p>{order.utmMedium}</p>}{order.utmCampaign && <small>{order.utmCampaign}</small>}</td>
+  <td><span className={"status-badge status-"+order.status}>{statuses[order.status]}</span></td>
+  <td><AdminForm endpoint={"/api/admin/orders/"+order.id} className="order-status-form"><label className="sr-only" htmlFor={order.id}>Trạng thái {order.code}</label><select id={order.id} name="status" defaultValue={order.status}>{Object.entries(statuses).map(([key,label])=><option key={key} value={key}>{label}</option>)}</select></AdminForm></td>
+ </tr>)}</tbody></table></div> : <Empty title="Chưa có đơn hàng phù hợp" body="Đơn đặt hàng mới sẽ xuất hiện tại đây. Thử thay đổi từ khóa hoặc bộ lọc." icon="bag"/>;
+}
+export default async function Admin({ searchParams }: { searchParams: Promise<{ tab?: string; status?: string; q?: string }> }) {
+ await requireAdmin();
+ const params = await searchParams;
+ const tab = navigation.some(([key])=>key === params.tab) ? params.tab! : "overview";
+ const status = typeof params.status === "string" && Object.hasOwn(statuses,params.status) ? params.status as keyof typeof statuses : undefined;
+ const q = typeof params.q === "string" ? params.q.trim().slice(0,100) : "";
+ const title = navigation.find(([key])=>key===tab)![1];
+ if(!process.env.DATABASE_URL) return <main className="admin-content"><Empty title="Chưa kết nối dữ liệu" body="Cấu hình DATABASE_URL để bắt đầu quản lý cửa hàng."/></main>;
+ const db = getDb();
+ const orderRows = ["overview","orders"].includes(tab) ? await db.select().from(orders).where(and(status ? eq(orders.status,status) : undefined,q ? or(ilike(orders.code,"%"+q+"%"),ilike(orders.name,"%"+q+"%"),ilike(orders.phone,"%"+q+"%")) : undefined)).orderBy(desc(orders.createdAt)).limit(tab==="overview"?8:200) : [];
+ const overview = tab === "overview" ? await Promise.all([
+  db.select({newOrders:sql<number>`count(*) filter (where status = 'new')::int`,revenue:sql<number>`coalesce(sum(total) filter (where status = 'done'), 0)::int`}).from(orders),
+  db.select({value:count()}).from(subscribers),db.select({value:count()}).from(quizResults),
+  db.select({source:orders.utmSource,value:count()}).from(orders).groupBy(orders.utmSource)
+ ]) : null;
+ const productRows = tab === "products" ? await db.select().from(products).where(q ? or(ilike(products.name,"%"+q+"%"),ilike(products.id,"%"+q+"%")) : undefined).orderBy(products.id) : [];
+ const reviewRows = tab === "reviews" ? await db.select().from(reviews).orderBy(desc(reviews.createdAt)).limit(200) : [];
+ const emailRows = tab === "emails" ? await db.select().from(subscribers).orderBy(desc(subscribers.createdAt)).limit(200) : [];
+ const description = {overview:"Một góc nhìn rõ ràng về hoạt động cửa hàng của bạn.",orders:"Theo dõi đơn hàng, nguồn truy cập và tiến độ giao hàng.",products:"Quản lý giá bán, tồn kho và trạng thái hiển thị.",reviews:"Lắng nghe khách hàng và quản lý nội dung đánh giá.",emails:"Danh sách đăng ký nhận tin và nguồn chiến dịch."}[tab];
+ return <div className="admin-shell">
+  <aside className="admin-sidebar"><Link href="/admin" className="admin-brand"><span className="admin-monogram">M</span><span>BODY MUSE<small>TRUNG TÂM QUẢN TRỊ</small></span></Link><p className="admin-nav-label">CỬA HÀNG</p><nav aria-label="Quản trị">{navigation.map(([key,label,icon])=><Link key={key} href={"/admin?tab="+key} className={tab===key?"active":""} aria-current={tab===key?"page":undefined}><Icon name={icon} size={18}/>{label}{tab===key && <span className="nav-active-dot"/>}</Link>)}</nav><div className="admin-sidebar-bottom"><Link href="/" target="_blank"><Icon name="external" size={17}/>Xem cửa hàng</Link><AdminLogout/><div className="admin-identity"><span>BM</span><div>Quản trị viên<small>BODY MUSE</small></div><Icon name="shield" size={17}/></div></div></aside>
+  <div className="admin-workspace"><header className="admin-topbar"><p>Quản trị <Icon name="chevron" size={12}/><strong>{title}</strong></p><div className="admin-topbar-actions"><Link href="/" className="admin-store-link">Xem cửa hàng <Icon name="external" size={14}/></Link><div className="admin-mobile-logout"><AdminLogout/></div></div></header>
+   <main id="main" className="admin-content"><div className="admin-page-heading"><div><p className="eyebrow">KHÔNG GIAN LÀM VIỆC</p><h1>{title}</h1><p>{description}</p></div>{["overview","orders","emails"].includes(tab) && <Link className="btn admin-export" href={"/api/admin/export?type="+(tab==="emails"?"subscribers":"orders")}><Icon name="external" size={15}/>Xuất CSV</Link>}</div>
+    {tab === "overview" && overview && <><div className="admin-stats">{[["Đơn hàng mới",overview[0][0].newOrders,"Chờ xác nhận và xử lý","bag"],["Doanh thu demo",money(overview[0][0].revenue),"Từ các đơn đã giao","chart"],["Email đăng ký",overview[1][0].value,"Khách đăng ký nhận ưu đãi","mail"],["Trắc nghiệm hoàn tất",overview[2][0].value,"Lượt khám phá mùi hương","star"]].map(([label,value,note,icon])=><section key={String(label)} className="admin-stat"><div><p>{label}</p><Icon name={icon as IconName} size={19}/></div><strong>{value}</strong><small>{note}</small></section>)}</div>
+     <div className="admin-overview-grid"><section className="admin-card"><div className="admin-card-heading"><div><h2>Đơn hàng gần đây</h2><p>8 đơn mới nhất của cửa hàng</p></div><Link href="/admin?tab=orders">Xem tất cả <Icon name="arrow" size={15}/></Link></div><OrderTable rows={orderRows}/></section><section className="admin-card source-card"><div className="admin-card-heading"><div><h2>Nguồn đơn hàng</h2><p>Phân bổ theo nguồn truy cập UTM</p></div></div>{overview[3].length ? <div className="source-list">{overview[3].map((source,i)=><div key={source.source||"direct"}><div><span><i className={"source-color source-color-"+i%4}/>{source.source||"Trực tiếp"}</span><strong>{source.value}</strong></div><progress max={Math.max(...overview[3].map(s=>s.value),1)} value={source.value} aria-label={"Số đơn từ "+(source.source||"trực tiếp")}/></div>)}</div> : <Empty title="Chưa có dữ liệu nguồn" body="Nguồn UTM sẽ được ghi nhận khi khách đặt đơn." icon="chart"/>}<div className="admin-note"><Icon name="shield" size={16}/><p>Số liệu lấy từ đơn hàng đã lưu. Dữ liệu trình duyệt ở chế độ xem thử không xuất hiện tại đây.</p></div></section></div></>}
+    {tab === "orders" && <section className="admin-card"><div className="admin-list-toolbar"><nav aria-label="Lọc trạng thái đơn">{[["","Tất cả"],...Object.entries(statuses)].map(([key,label])=><Link key={key} className={(status||"")===key?"active":""} href={"/admin?tab=orders"+(key?"&status="+key:"")+(q?"&q="+encodeURIComponent(q):"")}>{label}</Link>)}</nav><form className="admin-search" action="/admin"><input type="hidden" name="tab" value="orders"/>{status && <input type="hidden" name="status" value={status}/>}<Icon name="search" size={16}/><label className="sr-only" htmlFor="order-search">Tìm đơn hàng</label><input id="order-search" name="q" placeholder="Mã đơn, tên, số điện thoại…" defaultValue={q} maxLength={100}/><button aria-label="Tìm đơn hàng"><Icon name="arrow" size={16}/></button></form></div><div className="admin-list-meta">{orderRows.length} đơn hàng hiển thị · Tối đa 200 đơn mới nhất</div><OrderTable rows={orderRows}/></section>}
+    {tab === "products" && <section className="admin-card"><div className="admin-card-heading"><div><h2>Danh mục sản phẩm</h2><p>{productRows.length} sản phẩm · Mở từng dòng để chỉnh sửa</p></div><form className="admin-search" action="/admin"><input type="hidden" name="tab" value="products"/><Icon name="search" size={16}/><label className="sr-only" htmlFor="product-search">Tìm sản phẩm</label><input id="product-search" name="q" placeholder="Tên hoặc mã sản phẩm…" defaultValue={q} maxLength={100}/><button aria-label="Tìm sản phẩm"><Icon name="arrow" size={16}/></button></form></div><div className="admin-products">{productRows.length ? productRows.map(product=><details key={product.id} className="admin-product-row"><summary><div className="admin-product-photo">{product.image && <CampaignImage src={product.image} alt={product.name} cropRollOn={product.id==="BM-13"}/>}</div><div className="admin-product-name"><strong>{product.name}</strong><small>{product.id} · {product.size}</small></div><span className="admin-product-price">{money(product.priceVnd)}</span><span className="admin-stock">{product.stock} <small>trong kho</small></span><span className={"status-badge "+(product.isActive?"status-done":"status-cancelled")}>{product.isActive?"Đang bán":"Tạm ẩn"}</span><Icon name="chevron" size={16}/></summary><div className="admin-product-edit"><AdminForm endpoint={"/api/admin/products/"+product.id} className="product-edit-form"><label>Giá (VND)<input name="priceVnd" type="number" min="1000" required defaultValue={product.priceVnd}/></label><label>Tồn kho<input name="stock" type="number" min="0" required defaultValue={product.stock}/></label><label>Hiển thị<select name="isActive" defaultValue={String(product.isActive)}><option value="true">Đang bán</option><option value="false">Tạm ẩn</option></select></label></AdminForm></div></details>) : <Empty title="Không tìm thấy sản phẩm" body="Thử một tên hoặc mã sản phẩm khác." icon="search"/>}</div></section>}
+    {tab === "reviews" && <div className="admin-reviews">{reviewRows.length ? reviewRows.map(review=><section className="admin-card review-card" key={review.id}><div className="review-heading"><span className="review-avatar">{review.name.slice(0,1).toUpperCase()}</span><div><h2>{review.name}</h2><p>{review.productId} · {date(review.createdAt)}</p></div><span className={"status-badge "+(review.status==="approved"?"status-done":review.status==="pending"?"status-new":"status-cancelled")}>{review.status==="approved"?"Đã duyệt":review.status==="pending"?"Chờ duyệt":"Từ chối"}</span></div><p className="review-stars"><Icon name="star" size={15}/>{review.stars}/5</p><p className="review-body">{review.body}</p><AdminForm endpoint={"/api/admin/reviews/"+review.id}><label>Trạng thái<select name="status" defaultValue={review.status}><option value="pending">Chờ duyệt</option><option value="approved">Đã duyệt</option><option value="rejected">Từ chối</option></select></label><label>Phản hồi từ BODY MUSE<textarea name="reply" maxLength={2000} defaultValue={review.reply||""} placeholder="Viết lời phản hồi cho khách hàng…"/></label></AdminForm></section>) : <section className="admin-card"><Empty title="Chưa có đánh giá" body="Đánh giá mới từ khách hàng sẽ xuất hiện tại đây để bạn duyệt và phản hồi." icon="star"/></section>}</div>}
+    {tab === "emails" && <section className="admin-card"><div className="admin-card-heading"><div><h2>Khách đăng ký nhận tin</h2><p>{emailRows.length} địa chỉ hiển thị · Tối đa 200 đăng ký mới nhất</p></div><span className="status-badge status-shipping">Đăng ký từ website</span></div>{emailRows.length ? <div className="admin-table-scroll"><table className="admin-table"><thead><tr><th>Email</th><th>Nguồn truy cập</th><th>Chiến dịch</th><th>Ngày đăng ký</th></tr></thead><tbody>{emailRows.map(subscriber=><tr key={subscriber.id}><td><strong>{subscriber.email}</strong></td><td><span className="source-tag">{subscriber.utmSource||"Trực tiếp"}</span></td><td>{subscriber.utmCampaign||"—"}</td><td>{date(subscriber.createdAt)}</td></tr>)}</tbody></table></div> : <Empty title="Chưa có email đăng ký" body="Danh sách được cập nhật khi khách đăng ký nhận ưu đãi trên cửa hàng." icon="mail"/>}</section>}
+    <footer className="admin-footer"><span>BODY MUSE · Trung tâm quản trị</span><span>Bản demo cho đồ án · Không thu tiền thật</span></footer>
+   </main>
+  </div>
+ </div>;
 }

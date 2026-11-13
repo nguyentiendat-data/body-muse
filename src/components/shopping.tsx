@@ -181,7 +181,7 @@ export function Checkout() {
       </p>
       <CatalogState loading={loading} error={error} />
       <form
-        className="grid lg:grid-cols-[1.3fr_1fr] gap-6"
+        className="checkout-form grid lg:grid-cols-[1.3fr_1fr] gap-8"
         onSubmit={async (event) => {
           event.preventDefault();
           if (busy) return;
@@ -226,7 +226,7 @@ export function Checkout() {
         }}
       >
         <div className="panel grid gap-5">
-          <h2 className="text-2xl font-bold">Thông tin nhận hàng</h2>
+          <h2 className="text-xl font-medium">Thông tin nhận hàng</h2>
           <label>
             Họ và tên
             <input
@@ -292,7 +292,7 @@ export function Checkout() {
             </label>
           </fieldset>
         </div>
-        <aside className="panel h-fit grid gap-4">
+        <aside className="checkout-summary panel h-fit grid gap-4">
           <h2 className="text-2xl font-bold">Đơn hàng của bạn</h2>
           {cart.items.map((item) => {
             const product = products.find(
@@ -346,7 +346,7 @@ export function Checkout() {
           <p className="flex justify-between">
             Giảm giá <b>−{money(discount)}</b>
           </p>
-          <p className="flex justify-between text-xl font-bold border-t-2 border-ink pt-4">
+          <p className="flex justify-between text-xl font-semibold border-t border-ink pt-5">
             Tổng cộng{" "}
             <span className="text-cobalt-text">
               {money(subtotal + shipping - discount)}

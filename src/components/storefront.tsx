@@ -1,5 +1,6 @@
 "use client";
 import { CampaignImage } from "./campaign-image";
+import { Icon } from "./ui-icon";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -15,85 +16,29 @@ import {
   ProductGrid,
   useProducts,
 } from "./catalog";
-export function Shop({
-  category = "",
-  scent = "",
-  sort = "popular",
-}: {
-  category?: string;
-  scent?: string;
-  sort?: string;
-}) {
-  const router = useRouter();
-  const query = new URLSearchParams();
-  if (category) query.set("category", category);
-  if (scent) query.set("scent", scent);
-  query.set("sort", sort);
-  const { products, loading, error } = useProducts(`?${query}`);
-  function filter(key: string, value: string) {
-    if (value) query.set(key, value);
-    else query.delete(key);
-    router.push(`/shop?${query}`, { scroll: false });
-  }
-  return (
-    <main id="main" className="page">
-      <p className="text-sm font-bold mb-3">MỘT CHÚT THƠM, CẢ NGÀY TỰ TIN</p>
-      <h1 className="title">Cửa hàng</h1>
-      <p className="mb-6">Chọn món bạn cần, chọn mùi bạn thích.</p>
-      <div
-        className="flex gap-2 overflow-x-auto pb-4"
-        aria-label="Lọc theo nhóm"
-      >
-        {categories.map(([key, label]) => (
-          <button
-            className={`btn shrink-0 ${category === key ? "dark" : ""}`}
-            aria-pressed={category === key}
-            key={key}
-            onClick={() => filter("category", key)}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-      <div className="flex flex-wrap justify-between gap-4 mb-8">
-        <div className="flex flex-wrap gap-2" aria-label="Lọc theo mùi">
-          <button
-            className={`btn ${!scent ? "dark" : ""}`}
-            onClick={() => filter("scent", "")}
-          >
-            Mọi mùi
-          </button>
-          {Object.entries(scentNames).map(([key, label]) => (
-            <button
-              key={key}
-              className={`btn ${scent === key ? "dark" : ""}`}
-              aria-pressed={scent === key}
-              onClick={() => filter("scent", key)}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-        <label className="flex items-center gap-3">
-          Sắp xếp
-          <select
-            className="!mt-0 !w-auto"
-            value={sort}
-            onChange={(event) => filter("sort", event.target.value)}
-          >
-            <option value="popular">Phổ biến</option>
-            <option value="price_asc">Giá tăng dần</option>
-            <option value="unit_asc">Giá / 100 ml hoặc g</option>
-          </select>
-        </label>
-      </div>
-      <CatalogState loading={loading} error={error} />
-      {!loading && !error && !products.length && (
-        <p>Chưa có sản phẩm phù hợp. Bạn thử chọn nhóm khác nhé.</p>
-      )}
-      <ProductGrid products={products} />
-    </main>
-  );
+export function Shop({ category = "", scent = "", sort = "popular", q = "" }: { category?: string; scent?: string; sort?: string; q?: string }) {
+ const router = useRouter();
+ const [filtersOpen,setFiltersOpen] = useState(false);
+ const query = new URLSearchParams();
+ if(category) query.set("category",category);
+ if(scent) query.set("scent",scent);
+ if(q) query.set("q",q);
+ query.set("sort",sort);
+ const {products, loading, error} = useProducts("?"+query);
+ const normalize = (value: string) => value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g,"d");
+ const visible = q ? products.filter(p => normalize(p.name+" "+scentNames[p.scent]).includes(normalize(q.trim()))) : products;
+ function filter(key: string, value: string) {if(value) query.set(key,value);else query.delete(key);router.push("/shop?"+query,{scroll:false});}
+ return <main id="main" className="page shop-page">
+  <nav className="breadcrumbs" aria-label="Đường dẫn"><Link href="/">Trang chủ</Link><Icon name="chevron" size={12}/><span>Cửa hàng</span></nav>
+  <div className="shop-heading"><div><p className="eyebrow">BỘ SƯU TẬP BODY MUSE</p><h1 className="title">Chỉn chu từ những điều nhỏ.</h1><p>Chọn món bạn cần. Tìm dấu hương của riêng mình.</p></div><Link href="/quiz" className="text-link">Cần gợi ý mùi hương? <Icon name="arrow" size={16}/></Link></div>
+  <div className="shop-layout">
+   <aside className={"shop-sidebar "+(filtersOpen ? "is-open" : "")} aria-label="Bộ lọc sản phẩm"><div className="filter-section"><h2>Danh mục</h2>{categories.map(([key,label])=><button key={key} className={category===key ? "filter-option selected" : "filter-option"} aria-pressed={category===key} onClick={()=>filter("category",key)}>{label}<Icon name="chevron" size={13}/></button>)}</div><div className="filter-section"><h2>Mùi hương</h2>{[["","Mọi mùi"],...Object.entries(scentNames)].map(([key,label])=><button key={key} className={scent===key ? "filter-option selected" : "filter-option"} aria-pressed={scent===key} onClick={()=>filter("scent",key)}><span className={"scent-dot dot-"+key}/>{label}{scent===key && <Icon name="check" size={15}/>}</button>)}</div><div className="filter-help"><Icon name="shield"/><strong>An tâm lựa chọn</strong><p>Đổi trả 30 ngày.<br/>Miễn phí ship từ 399.000đ.</p><Link href="/policies">Xem chính sách</Link></div></aside>
+   <div className="shop-results"><div className="shop-toolbar"><button className="btn filter-toggle" aria-expanded={filtersOpen} onClick={()=>setFiltersOpen(!filtersOpen)}><Icon name="filter" size={17}/>Bộ lọc</button><p role="status">{loading ? "Đang tải…" : visible.length+" sản phẩm"}</p><label>Sắp xếp<select aria-label="Sắp xếp" value={sort} onChange={e=>filter("sort",e.target.value)}><option value="popular">Phổ biến</option><option value="price_asc">Giá tăng dần</option><option value="unit_asc">Giá / 100 ml hoặc g</option></select></label></div>
+    {(category || scent || q) && <div className="active-filters">{q && <span>Tìm: “{q}”</span>}{category && <span>{categories.find(([key])=>key===category)?.[1]}</span>}{scent && <span>{scentNames[scent as keyof typeof scentNames] || scent}</span>}<Link href="/shop">Xóa bộ lọc</Link></div>}
+    <CatalogState loading={loading} error={error}/>{!loading && !error && !visible.length && <div className="empty-state"><Icon name="search" size={30}/><h2>Chưa tìm thấy sản phẩm</h2><p>Thử tên khác hoặc bỏ bớt bộ lọc để xem thêm lựa chọn.</p><Link href="/shop" className="btn">Xem tất cả sản phẩm</Link></div>}<ProductGrid products={visible}/>
+   </div>
+  </div>
+ </main>;
 }
 export function ProductDetail({ slug }: { slug: string }) {
   const [data, setData] = useState<ProductResponse | null>(null);
@@ -163,9 +108,9 @@ export function ProductDetail({ slug }: { slug: string }) {
         </Link>{" "}
         / {product.name}
       </nav>
-      <section className="grid md:grid-cols-2 gap-8 md:gap-12">
-        <div>
-          <div className="photo border-[3px] border-ink rounded-[28px] overflow-hidden">
+      <section className="product-detail-layout">
+        <div className="product-gallery">
+          <div className="photo product-main-photo">
             {images[selectedImage] && (
               <CampaignImage
                 src={images[selectedImage]}
@@ -196,7 +141,7 @@ export function ProductDetail({ slug }: { slug: string }) {
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-5">
+        <div className="product-purchase flex flex-col gap-5">
           <p className="font-bold text-sm tracking-widest">
             BODY MUSE · {product.size}
           </p>
@@ -363,7 +308,7 @@ export function ProductDetail({ slug }: { slug: string }) {
           </form>
         </div>
       </section>
-      <div className="md:hidden fixed z-20 bottom-0 inset-x-0 bg-cream border-t-2 border-ink p-3 flex items-center justify-between gap-3">
+      <div className="mobile-purchase md:hidden fixed z-20 bottom-0 inset-x-0 bg-cream border-t border-ink p-3 flex items-center justify-between gap-3">
         <b className="text-cobalt-text">{money(product.priceVnd * qty)}</b>
         <button
           className="btn primary"

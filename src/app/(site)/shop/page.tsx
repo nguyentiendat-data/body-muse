@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; scent?: string; sort?: string }>;
+  searchParams: Promise<{ category?: string; scent?: string; sort?: string; q?: string }>;
 }) {
   return <Shop {...await searchParams} />;
 }

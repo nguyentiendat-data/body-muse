@@ -32,7 +32,7 @@ test("mua hàng, UTM và tra cứu đơn", async ({ page }, info) => {
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
-  await page.getByRole("link", { name: "Khám phá bộ sưu tập ↗", exact: true }).click();
+  await page.getByRole("link", { name: "Khám phá bộ sưu tập", exact: true }).click();
   await page
     .getByRole("button", { name: "Thêm vào giỏ", exact: true })
     .first()
@@ -168,4 +168,24 @@ test("Ocean xuất hiện trong bộ lọc, chi tiết và giỏ hàng", async (
  await page.getByRole("button", {name:"Thêm vào giỏ",exact:true}).first().click();
  await expect(page.getByRole("dialog").getByText("Lăn khử mùi nam Ocean",{exact:true})).toBeVisible();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+
+test("tìm sản phẩm không dấu và giữ từ khóa khi lọc", async ({ page }) => {
+ await page.goto("/");
+ await page.getByRole("button", {name:"Tìm kiếm sản phẩm", exact:true}).click();
+ await page.getByLabel("Tìm sản phẩm", {exact:true}).fill("LAN KHU MUI");
+ await page.getByRole("button", {name:"Tìm kiếm", exact:true}).click();
+ await expect(page).toHaveURL(/q=LAN/);
+ await expect(page.locator("main article")).toHaveCount(2);
+ const toggle = page.getByRole("button", {name:"Bộ lọc", exact:true});
+ if (await toggle.isVisible()) await toggle.click();
+ await page.getByRole("button", {name:"Ocean", exact:true}).click();
+ await expect(page).toHaveURL(/scent=ocean/);
+ await expect(page).toHaveURL(/q=LAN/);
+ await expect(page.locator("main article")).toHaveCount(1);
+ await page.getByRole("combobox", {name:"Sắp xếp", exact:true}).selectOption("price_asc");
+ await expect(page).toHaveURL(/sort=price_asc/);
+ await expect(page).toHaveURL(/q=LAN/);
+ await page.getByRole("link", {name:"Xóa bộ lọc", exact:true}).click();
+ await expect(page.locator("main article")).toHaveCount(13);
 });

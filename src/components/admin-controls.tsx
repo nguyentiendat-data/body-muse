@@ -1,23 +1,26 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Icon } from "./ui-icon";
 export function AdminForm({
   endpoint,
   children,
   mode = "PATCH",
   redirectTo = "/admin",
+  className = "",
 }: {
   endpoint: string;
   children: React.ReactNode;
   mode?: "POST" | "PATCH";
   redirectTo?: string;
+  className?: string;
 }) {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const router = useRouter();
   return (
     <form
-      className="grid gap-3"
+      className={"admin-form " + className}
       onSubmit={async (event) => {
         event.preventDefault();
         setBusy(true);
@@ -58,11 +61,11 @@ export function AdminForm({
       {children}
       <button
         disabled={busy}
-        className="rounded-full bg-cobalt text-white px-5 py-3 font-bold"
+        className="btn primary admin-save"
       >
         {busy ? "Đang lưu…" : mode === "POST" ? "Đăng nhập" : "Lưu thay đổi"}
       </button>
-      <p role="status">{message}</p>
+      {message && <p role="status" className={message === "Đã lưu." ? "admin-feedback success" : "admin-feedback"}>{message}</p>}
     </form>
   );
 }
@@ -70,14 +73,14 @@ export function AdminLogout() {
   const router = useRouter();
   return (
     <button
-      className="min-h-12 text-left"
+      className="admin-logout"
       onClick={async () => {
         await fetch("/api/admin/logout", { method: "POST" });
         router.push("/admin/login");
         router.refresh();
       }}
     >
-      Đăng xuất
+      <Icon name="logout" size={17} />Đăng xuất
     </button>
   );
 }
