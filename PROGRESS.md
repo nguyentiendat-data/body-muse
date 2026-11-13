@@ -72,3 +72,7 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 - Chuẩn bị hero Ocean và poster 11.11 riêng; không áp giảm 70% vào giá khi chưa có quy tắc khuyến mãi. Giữ nguyên toàn bộ ảnh cũ.
 - CÒN CHỜ FILE ẢNH: hai ảnh đính kèm chỉ hiển thị trong hội thoại, chưa có file trong repo. Cần lưu ảnh gốc vào public/products/ocean.png và public/sale-11-11.png. Thành phần ảnh có trạng thái chờ, không dùng ảnh sản phẩm khác thay thế.
 - npm run build đạt; npm run check đạt (lint, typecheck, 14 tests). Playwright 10/10 đạt trên mobile 390 px và desktop: mua hàng/UTM/tra cứu, tài khoản/OTP, quiz, admin/origin, Ocean lọc/chi tiết/giỏ. Đã xem ảnh chụp hai kích thước; chưa thể duyệt ảnh Ocean/sale vì thiếu file. Bản build cuối khôi phục theo cấu hình local của dự án. Không deploy/push.
+
+### Bổ sung ảnh gốc Ocean và sale — 13/11/2026
+- Đã tự lấy hai ảnh đính kèm trong đúng phiên hội thoại, lưu nguyên bản thành public/products/ocean.png (922 × 508) và public/sale-11-11.png (627 × 707). Không tạo lại hoặc thay thế ảnh cũ. Phần chờ file ảnh ở ghi chú trước đã được giải quyết.
+- Hero Ocean, thẻ sản phẩm, trang chi tiết và khối sale dùng đúng đường dẫn đã chuẩn bị. Build và lint đạt; Chrome xác nhận cả hai ảnh tải/giải mã thành công, mobile 390 px không tràn ngang; đã chụp desktop/mobile để duyệt. Không deploy hoặc thay đổi DB.
