@@ -40,7 +40,7 @@ test("mua hàng, UTM và tra cứu đơn", async ({ page }, info) => {
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.getByRole("button", { name: "Đóng giỏ hàng" }).click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
-  await page.locator("main article").first().getByRole("link").click();
+  await page.locator("main article").first().getByRole("heading", {name:"Xịt khử mùi Daisy Blue", exact:true}).click();
   await expect(page).toHaveURL(/\/shop\/xit-khu-mui-daisy-blue/);
   await expect(
     page.getByRole("heading", { name: "Ba tầng hương" }),
@@ -172,7 +172,8 @@ test("Ocean xuất hiện trong bộ lọc, chi tiết và giỏ hàng", async (
 
 test("tìm sản phẩm không dấu và giữ từ khóa khi lọc", async ({ page }) => {
  await page.goto("/");
- await page.getByRole("button", {name:"Tìm kiếm sản phẩm", exact:true}).click();
+ const searchToggle = page.getByRole("button", {name:"Tìm kiếm sản phẩm", exact:true});
+ if (await searchToggle.isVisible()) await searchToggle.click();
  await page.getByLabel("Tìm sản phẩm", {exact:true}).fill("LAN KHU MUI");
  await page.getByRole("button", {name:"Tìm kiếm", exact:true}).click();
  await expect(page).toHaveURL(/q=LAN/);
@@ -188,4 +189,25 @@ test("tìm sản phẩm không dấu và giữ từ khóa khi lọc", async ({ p
  await expect(page).toHaveURL(/q=LAN/);
  await page.getByRole("link", {name:"Xóa bộ lọc", exact:true}).click();
  await expect(page.locator("main article")).toHaveCount(13);
+});
+
+test("banner, danh mục tròn và tab sản phẩm hoạt động", async ({page}) => {
+ await page.goto("/");
+ await expect(page.getByRole("heading",{name:/Phong thái riêng.*Dấu hương riêng/s})).toBeVisible();
+ await expect(page.locator(".round-category")).toHaveCount(8);
+ await page.getByRole("button",{name:"Banner tiếp theo",exact:true}).click();
+ await expect(page.getByRole("heading",{name:/Trong trẻo như biển/})).toBeVisible();
+ await page.getByRole("button",{name:"Xem banner 3",exact:true}).click();
+ await expect(page.getByRole("heading",{name:/Lần đầu gặp gỡ/})).toBeVisible();
+ await page.getByRole("button",{name:"Xem banner 1",exact:true}).click();
+ await page.getByRole("tab",{name:/Bộ quà & thử mùi/}).click();
+ await expect(page.locator("#home-deal-products article")).toHaveCount(4);
+ await page.getByRole("tab",{name:/Chào bạn mới/}).click();
+ await expect(page.locator("#home-deal-products article")).toHaveCount(6);
+ await page.getByRole("tab",{name:/Chào bạn mới/}).press("ArrowRight");
+ await expect(page.getByRole("tab",{name:/Chăm sóc mỗi ngày/})).toHaveAttribute("aria-selected","true");
+ await page.getByRole("tab",{name:/Chào bạn mới/}).click();
+ await page.getByRole("button",{name:"Sản phẩm tiếp theo: Chào bạn mới",exact:true}).click();
+ await expect.poll(()=>page.locator("#home-deal-products .product-rail").evaluate(e=>e.scrollLeft)).toBeGreaterThan(10);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });

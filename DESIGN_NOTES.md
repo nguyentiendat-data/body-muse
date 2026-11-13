@@ -16,3 +16,6 @@
 
 ## Kiểm tra
 Kết quả kiểm thử và giới hạn triển khai được ghi trong PROGRESS.md. Các ảnh chụp kiểm tra nằm trong artifacts (không commit vì có thể chứa dữ liệu quản trị).
+
+## Điều chỉnh theo ảnh mẫu mới của người dùng
+Ảnh tham chiếu Sudes Craft do người dùng gửi là hướng bố cục mới của storefront: utility bar, tìm kiếm luôn hiện trên desktop, menu nền kem, banner bo góc có điều khiển chuyển slide, danh mục tròn có ảnh và số sản phẩm thật, khối gợi ý có tab và dải sản phẩm cuộn ngang. Áp dụng màu kem/vàng ấm cùng navy cho BODY MUSE; dùng ảnh gốc của dự án. Không áp phần trăm giảm hoặc thời hạn đếm ngược khi chưa có cấu hình chương trình thật. WELCOME10 tiếp tục giảm 10% đơn đầu theo quy tắc sẵn có. Admin giữ thiết kế quản lý đã hoàn tất trước đó.
