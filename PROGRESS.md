@@ -83,3 +83,7 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 - Trang chủ chọn kit và Ocean trong sản phẩm nổi bật; mô tả và giá theo quy cách đúng cho kit.
 - Đã chạy script cập nhật giới hạn scripts/sync-featured-products.ts: chỉ metadata BM-11 và thêm BM-13 (hoặc chỉ đổi ảnh nếu đã tồn tại), không đổi giá/tồn kho đã có, không chạm sản phẩm khác/đơn hàng.
 - npm run check đạt (lint/typecheck/14 tests); build đạt. Đã xử lý lỗi đường dẫn ảnh kit có dấu trên Windows bằng bản sao tên đơn giản trial-kit-cover.png/trial-kit-detail.png; giữ nguyên hai file gốc. Chrome xác nhận kit 2 ảnh và Ocean 3 ảnh đều tải/giải mã được, chuyển ảnh và thêm cả hai vào giỏ thành công; mobile 390 px không tràn ngang, không lỗi JavaScript. Đã xem ảnh chụp và sửa căn khung lăn đúng chai. Máy chủ bản mới đang chạy tại localhost:3000; chưa deploy online.
+
+### Thay ảnh hero theo phản hồi — 13/11/2026
+- Bỏ ảnh ghép Ocean cũ khỏi đầu trang vì lặp sản phẩm, viền đen và khoảng trống lớn. Dùng ảnh bìa Trial Kit người dùng cung cấp, khung vuông vừa ảnh; chú thích đúng Ocean/Woody/Citrus, nhấn ảnh để xem kit. Không sửa các ảnh gốc.
+- Build/lint đạt; Chrome xác nhận ảnh hero tải đúng, khung vuông 583 × 583 ở desktop, mobile 390 px không tràn ngang; đã duyệt screenshot. Website bản mới đang chạy localhost:3000.

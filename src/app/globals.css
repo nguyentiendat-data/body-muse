@@ -166,7 +166,7 @@ body {
 .storefront .hero-secondary:hover {background:#27374c;}
 .hero-services {display:flex;flex-wrap:wrap;gap:16px;color:#c2cad4;font-size:11px;margin-top:36px;padding-top:24px;border-top:1px solid #344154;}
 .hero-product {min-width:0;}
-.hero-product-image {position:relative;aspect-ratio:1.15;background:#e9ecf0;border-radius:4px;overflow:hidden;}
+.hero-product-image {position:relative;aspect-ratio:1;background:#8ab4c4;border-radius:6px;overflow:hidden;border:1px solid #ffffff20;}
 .hero-caption {display:flex;justify-content:space-between;gap:12px;font-size:10px;letter-spacing:.12em;color:#bdc6d2;padding-top:18px;}
 .collection-nav {display:flex;align-items:center;gap:40px;padding-top:26px;padding-bottom:26px;border-bottom:1px solid #d4d9df;}
 .collection-nav>.eyebrow {white-space:nowrap;color:#5e6c7d;}
