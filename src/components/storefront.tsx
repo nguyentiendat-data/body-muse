@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { CampaignImage } from "./campaign-image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -149,6 +148,7 @@ export function ProductDetail({ slug }: { slug: string }) {
   const images = product.image
     ? [
         product.image,
+        ...(product.id === "BM-11" ? ["/products/trial-kit-detail.png"] : product.id === "BM-13" ? ["/products/ocean-campaign.png", "/products/ocean.png"] : []),
         ...(product.line === "xit-khu-mui"
           ? [`/products/detail-${suffix}.jpg`, `/products/set-${suffix}.jpg`]
           : []),
@@ -171,6 +171,7 @@ export function ProductDetail({ slug }: { slug: string }) {
                 src={images[selectedImage]}
                 alt={`${product.name} — ảnh ${selectedImage + 1}`}
                 priority
+                cropRollOn={product.id === "BM-13" && selectedImage === 0}
               />
             )}
           </div>
@@ -182,13 +183,12 @@ export function ProductDetail({ slug }: { slug: string }) {
                   aria-label={`Xem ảnh ${index + 1} của ${product.name}`}
                   aria-pressed={selectedImage === index}
                   onClick={() => setSelectedImage(index)}
-                  key={src}
+                  key={src + index}
                 >
-                  <Image
+                  <CampaignImage
                     src={src}
                     alt=""
-                    fill
-                    sizes="80px"
+                    cropRollOn={product.id === "BM-13" && index === 0}
                     className="object-cover"
                   />
                 </button>
@@ -204,8 +204,7 @@ export function ProductDetail({ slug }: { slug: string }) {
             {product.name}
           </h1>
           <p>
-            Một mùi hương cho nhịp sống của riêng bạn. Gọn trong thói quen, rõ
-            trong cá tính.
+            {product.id === "BM-11" ? "Bộ thử 3 mùi Ocean, Woody và Citrus. Ba chai xịt mini để bạn khám phá dấu hương của riêng mình. Dung tích từng chai đang chờ xác nhận." : product.id === "BM-13" ? "Lăn khử mùi nam Ocean 50 ml. Trong trẻo, điềm tĩnh như biển sớm." : "Một mùi hương cho nhịp sống của riêng bạn. Gọn trong thói quen, rõ trong cá tính."}
           </p>
           <div className="flex gap-2 flex-wrap" aria-label="Chọn mùi hương">
             {[product, ...related]
@@ -231,7 +230,7 @@ export function ProductDetail({ slug }: { slug: string }) {
             <p className="text-sm mt-2">
               {product.unitPriceVnd
                 ? `${money(product.unitPriceVnd)} / ${product.unitBasis}`
-                : "Bộ 4 món"}{" "}
+                : product.size}{" "}
               · {product.stock ? "Còn hàng" : "Tạm hết hàng"}
             </p>
           </div>

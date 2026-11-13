@@ -141,13 +141,13 @@ const rows: Seed[] = [
   [
     "discovery-kit",
     "discovery-kit",
-    "Discovery Kit (5 mẫu x 2 ml)",
+    "Trial Kit – bộ thử 3 mùi",
     "bo-qua",
     "all",
-    "10 ml",
+    "3 chai xịt mini",
     99000,
-    990000,
-    "100 ml",
+    null,
+    null,
   ],
   [
     "muse-box",
@@ -190,11 +190,11 @@ export const products: Product[] = rows.map(
       unitBasis,
       notes: scent === "all" || scent === "ocean" ? null : scentNotes[scent],
       stock: 50,
-      image: `/products/bm-${number}.jpg`,
+      image: number === "11" ? "/products/trial-kit-cover.png" : `/products/bm-${number}.jpg`,
       isActive: true,
     };
   },
 );
 
 // Giá và tồn kho giả định cho bản demo, chờ xác nhận từ nhóm.
-products.push({ id: "BM-13", slug: "lan-khu-mui-ocean", line: "lan-khu-mui", name: "Lăn khử mùi nam Ocean", category: "lan-nuoc-hoa", scent: "ocean", size: "50 ml", priceVnd: 99000, unitPriceVnd: 198000, unitBasis: "100 ml", notes: null, stock: 50, image: "/products/ocean.png", isActive: true });
+products.push({ id: "BM-13", slug: "lan-khu-mui-ocean", line: "lan-khu-mui", name: "Lăn khử mùi nam Ocean", category: "lan-nuoc-hoa", scent: "ocean", size: "50 ml", priceVnd: 99000, unitPriceVnd: 198000, unitBasis: "100 ml", notes: null, stock: 50, image: "/products/ocean-campaign.png", isActive: true });

@@ -76,3 +76,10 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 ### Bổ sung ảnh gốc Ocean và sale — 13/11/2026
 - Đã tự lấy hai ảnh đính kèm trong đúng phiên hội thoại, lưu nguyên bản thành public/products/ocean.png (922 × 508) và public/sale-11-11.png (627 × 707). Không tạo lại hoặc thay thế ảnh cũ. Phần chờ file ảnh ở ghi chú trước đã được giải quyết.
 - Hero Ocean, thẻ sản phẩm, trang chi tiết và khối sale dùng đúng đường dẫn đã chuẩn bị. Build và lint đạt; Chrome xác nhận cả hai ảnh tải/giải mã thành công, mobile 390 px không tràn ngang; đã chụp desktop/mobile để duyệt. Không deploy hoặc thay đổi DB.
+
+### Trial Kit và khung ảnh lăn Ocean — 13/11/2026
+- Dùng hai ảnh gốc trong public/products/trial kit: bìa và bên trong kit. Đổi BM-11 thành Trial Kit – bộ thử 3 mùi, quy cách 3 chai xịt mini Ocean/Woody/Citrus; bỏ đơn giá theo 100 ml vì chưa biết dung tích thật, giữ giá demo hiện có.
+- Lưu nguyên bản poster Ocean mới thành public/products/ocean-campaign.png. Khung ảnh lăn được tách bằng CSS crop trong thẻ sản phẩm, thư viện ảnh và giỏ; không tái tạo/chỉnh sửa raster gốc. Trang Ocean có ảnh lăn riêng, poster đầy đủ và ảnh bộ cũ.
+- Trang chủ chọn kit và Ocean trong sản phẩm nổi bật; mô tả và giá theo quy cách đúng cho kit.
+- Đã chạy script cập nhật giới hạn scripts/sync-featured-products.ts: chỉ metadata BM-11 và thêm BM-13 (hoặc chỉ đổi ảnh nếu đã tồn tại), không đổi giá/tồn kho đã có, không chạm sản phẩm khác/đơn hàng.
+- npm run check đạt (lint/typecheck/14 tests); build đạt. Đã xử lý lỗi đường dẫn ảnh kit có dấu trên Windows bằng bản sao tên đơn giản trial-kit-cover.png/trial-kit-detail.png; giữ nguyên hai file gốc. Chrome xác nhận kit 2 ảnh và Ocean 3 ảnh đều tải/giải mã được, chuyển ảnh và thêm cả hai vào giỏ thành công; mobile 390 px không tràn ngang, không lỗi JavaScript. Đã xem ảnh chụp và sửa căn khung lăn đúng chai. Máy chủ bản mới đang chạy tại localhost:3000; chưa deploy online.

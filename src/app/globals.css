@@ -199,3 +199,10 @@ body {
 .site-header {min-height:80px;gap:8px;}.site-header img {width:32px;height:32px;}.site-header>a {gap:6px;}.brand-wordmark {font-size:15px;letter-spacing:.08em;}.site-header .btn {padding:10px;}
 .hero-layout {grid-template-columns:1fr;gap:32px;padding-top:40px;padding-bottom:24px;}.hero-copy h1 {font-size:42px;}.hero-copy .eyebrow {margin-bottom:20px;}.hero-description {font-size:14px;margin:20px 0 24px;}.hero-services {margin-top:24px;gap:12px;font-size:10px;}.hero-caption {font-size:9px;}.collection-nav {display:block;padding-top:20px;padding-bottom:20px;}.collection-nav>.eyebrow {display:block;margin-bottom:12px;}.collection-link {font-size:12px;padding:10px 14px;gap:16px;}.editorial-section {padding-top:40px;}.section-heading {align-items:start;}.section-heading>a {font-size:12px;padding-top:8px;}.section-title {font-size:27px;}.eyebrow {font-size:10px;}.sale-layout {grid-template-columns:1fr;}.sale-copy {padding:28px;gap:20px;}.scent-invitation {padding:28px;display:block;}.scent-invitation>.btn {margin-top:24px;}.service-grid {grid-template-columns:1fr;gap:24px;padding-top:40px;}.newsletter {grid-template-columns:1fr;gap:24px;padding:24px;}.storefront .product-card .btn {font-size:12px;padding:10px;}.storefront footer {margin-top:40px;}
 }
+
+/* Crop the supplied poster in the browser; keep the original raster untouched. */
+.roll-on-stage {position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#d6edf4;}
+.roll-on-crop {position:relative;height:90%;aspect-ratio:260/650;overflow:hidden;}
+
+.roll-on-source {position:absolute;width:415.385%;height:207.692%;left:-221.154%;top:-95.385%;}
+.storefront .roll-on-source img {object-fit:fill;}

@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import { CampaignImage } from "./campaign-image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -59,11 +59,10 @@ export function CartContent({ drawer = false }: { drawer?: boolean }) {
                 >
                   <div className="relative w-20 aspect-[3/4] shrink-0 rounded-xl overflow-hidden bg-photo">
                     {product?.image && (
-                      <Image
+                      <CampaignImage
                         src={product.image}
                         alt={product.name}
-                        fill
-                        sizes="80px"
+                        cropRollOn={product.id === "BM-13"}
                         className="object-cover"
                       />
                     )}

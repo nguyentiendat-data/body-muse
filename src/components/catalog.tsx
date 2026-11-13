@@ -48,6 +48,7 @@ export function ProductCard({ product }: { product: Product }) {
             <CampaignImage
               src={product.image}
               alt={product.name}
+              cropRollOn={product.id === "BM-13"}
             />
           )}
         </div>
@@ -60,7 +61,7 @@ export function ProductCard({ product }: { product: Product }) {
           <p className="text-sm mt-1">
             {product.unitPriceVnd
               ? `${money(product.unitPriceVnd)} / ${product.unitBasis}`
-              : "Bộ 4 món"}
+              : product.size}
           </p>
         </div>
       </Link>

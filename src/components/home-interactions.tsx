@@ -9,7 +9,7 @@ export function FeaturedProducts() {
       <CatalogState loading={loading} error={error} />
       <ProductGrid
         products={products.filter((product) =>
-          ["BM-13", "BM-01", "BM-10", "BM-12"].includes(product.id),
+          ["BM-13", "BM-11", "BM-01", "BM-10"].includes(product.id),
         )}
       />
     </>
