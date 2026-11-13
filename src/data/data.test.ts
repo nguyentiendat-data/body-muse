@@ -3,9 +3,9 @@ import { products } from "./products";
 import { resolveQuiz } from "./quiz";
 
 describe("Dữ liệu danh mục và trắc nghiệm", () => {
-  it("có đủ 12 sản phẩm và mã duy nhất", () => {
-    expect(products).toHaveLength(12);
-    expect(new Set(products.map((product) => product.id)).size).toBe(12);
+  it("có đủ 13 sản phẩm và mã duy nhất", () => {
+    expect(products).toHaveLength(13);
+    expect(new Set(products.map((product) => product.id)).size).toBe(13);
     expect(
       products.every((product) => product.stock === 50 && product.image),
     ).toBe(true);

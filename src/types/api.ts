@@ -1,6 +1,6 @@
 export type Category =
   "xit-khu-mui" | "tam-goi" | "duong-the" | "lan-nuoc-hoa" | "bo-qua";
-export type Scent = "daisy-blue" | "peony-amber" | "mint-soda" | "all";
+export type Scent = "daisy-blue" | "peony-amber" | "mint-soda" | "ocean" | "all";
 export type Notes = { top: string; mid: string; base: string };
 export type Product = {
   id: string;

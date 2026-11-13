@@ -15,7 +15,7 @@ async function seed() {
         .insert(products)
         .values(product)
         .onConflictDoNothing({ target: products.id });
-    console.info("Đã nạp danh mục 12 sản phẩm; giữ nguyên dữ liệu đã có.");
+    console.info(`Đã nạp danh mục ${catalog.length} sản phẩm; giữ nguyên dữ liệu đã có.`);
   } finally {
     await pool.end();
   }

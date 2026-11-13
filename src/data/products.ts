@@ -1,6 +1,6 @@
 import type { Notes, Product, Scent } from "@/types/api";
 
-export const scentNotes: Record<Exclude<Scent, "all">, Notes> = {
+export const scentNotes: Record<Exclude<Scent, "all" | "ocean">, Notes> = {
   "daisy-blue": { top: "Cam bergamot", mid: "Hoa cúc", base: "Xạ hương trắng" },
   "peony-amber": {
     top: "Quýt và tiêu hồng",
@@ -13,7 +13,8 @@ export const scentNames: Record<Scent, string> = {
   "daisy-blue": "Daisy Blue",
   "peony-amber": "Peony Amber",
   "mint-soda": "Mint Soda",
-  all: "Cả ba mùi",
+  ocean: "Ocean",
+  all: "Bộ sưu tập",
 };
 type Seed = [
   string,
@@ -187,10 +188,13 @@ export const products: Product[] = rows.map(
       priceVnd,
       unitPriceVnd,
       unitBasis,
-      notes: scent === "all" ? null : scentNotes[scent],
+      notes: scent === "all" || scent === "ocean" ? null : scentNotes[scent],
       stock: 50,
       image: `/products/bm-${number}.jpg`,
       isActive: true,
     };
   },
 );
+
+// Giá và tồn kho giả định cho bản demo, chờ xác nhận từ nhóm.
+products.push({ id: "BM-13", slug: "lan-khu-mui-ocean", line: "lan-khu-mui", name: "Lăn khử mùi nam Ocean", category: "lan-nuoc-hoa", scent: "ocean", size: "50 ml", priceVnd: 99000, unitPriceVnd: 198000, unitBasis: "100 ml", notes: null, stock: 50, image: "/products/ocean.png", isActive: true });

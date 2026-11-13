@@ -10,7 +10,7 @@ test("mua hàng, UTM và tra cứu đơn", async ({ page }, info) => {
   );
   await expect(
     page.getByRole("heading", {
-      name: "Mùi hương của riêng bạn, từ đầu đến chân.",
+      name: /Phong thái riêng.*Dấu hương riêng/s,
     }),
   ).toBeVisible();
   await page.locator("img").evaluateAll(async (images) => {
@@ -18,7 +18,7 @@ test("mua hàng, UTM và tra cứu đơn", async ({ page }, info) => {
       images.map(async (image) => {
         if (image instanceof HTMLImageElement) {
           image.loading = "eager";
-          await image.decode();
+          await image.decode().catch(() => undefined);
         }
       }),
     );
@@ -32,14 +32,16 @@ test("mua hàng, UTM và tra cứu đơn", async ({ page }, info) => {
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
-  await page.getByRole("link", { name: "Khám phá ngay", exact: true }).click();
+  await page.getByRole("link", { name: "Khám phá bộ sưu tập ↗", exact: true }).click();
   await page
     .getByRole("button", { name: "Thêm vào giỏ", exact: true })
     .first()
     .click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.getByRole("button", { name: "Đóng giỏ hàng" }).click();
-  await page.locator("article").first().getByRole("link").click();
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await page.locator("main article").first().getByRole("link").click();
+  await expect(page).toHaveURL(/\/shop\/xit-khu-mui-daisy-blue/);
   await expect(
     page.getByRole("heading", { name: "Ba tầng hương" }),
   ).toBeVisible();
@@ -143,7 +145,9 @@ test("trắc nghiệm chọn theo đa số", async ({ page }) => {
   ).toBeVisible();
 });
 test("admin bị chặn và origin khác bị từ chối", async ({ request }) => {
-  expect((await request.get("/admin")).status()).toBe(401);
+  const admin = await request.get("/admin", {maxRedirects: 0});
+  expect(admin.status()).toBe(302);
+  expect(admin.headers().location).toContain("/admin/login");
   expect((await request.get("/api/admin/export?type=orders")).status()).toBe(
     401,
   );
@@ -153,4 +157,15 @@ test("admin bị chặn và origin khác bị từ chối", async ({ request }) 
   });
   expect(result.status()).toBe(400);
   expect((await result.json()).error.code).toBe("INVALID_ORIGIN");
+});
+
+test("Ocean xuất hiện trong bộ lọc, chi tiết và giỏ hàng", async ({page}) => {
+ await page.goto("/shop?scent=ocean");
+ await expect(page.locator("article")).toHaveCount(1);
+ await page.locator("article").getByRole("link").click();
+ await expect(page.getByRole("heading", {name:"Lăn khử mùi nam Ocean",exact:true})).toBeVisible();
+ await expect(page.getByText("99.000đ",{exact:true}).first()).toBeVisible();
+ await page.getByRole("button", {name:"Thêm vào giỏ",exact:true}).first().click();
+ await expect(page.getByRole("dialog").getByText("Lăn khử mùi nam Ocean",{exact:true})).toBeVisible();
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });

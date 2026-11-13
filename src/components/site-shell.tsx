@@ -19,7 +19,7 @@ function Header() {
       <div className="bg-ink text-cream text-center px-4 py-2 text-sm">
         Miễn phí giao hàng từ 399.000đ · Đổi trả trong 30 ngày
       </div>
-      <header className="wrap flex items-center justify-between gap-3 py-4">
+      <header className="site-header wrap flex items-center justify-between gap-3 py-4">
         <button
           className="btn lg:hidden !px-3"
           aria-label="Mở menu"
@@ -47,7 +47,7 @@ function Header() {
             height={48}
             className="rounded-full"
           />
-          <span className="font-display text-xl md:text-2xl">BODY MUSE</span>
+          <span className="brand-wordmark text-lg md:text-2xl">BODY MUSE</span>
         </Link>
         <nav
           className="hidden lg:flex gap-6 font-semibold"
@@ -221,7 +221,7 @@ export function Messenger() {
 }
 export function SiteShell({ children }: { children: React.ReactNode }) {
   return (
-    <AuthProvider>
+    <div className="storefront"><AuthProvider>
       <CartProvider>
         <a href="#main" className="skip-link">
           Đến nội dung chính
@@ -276,6 +276,6 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
         <CartDrawer />
         <CookieConsent />
       </CartProvider>
-    </AuthProvider>
+    </AuthProvider></div>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { CampaignImage } from "./campaign-image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -166,13 +167,10 @@ export function ProductDetail({ slug }: { slug: string }) {
         <div>
           <div className="photo border-[3px] border-ink rounded-[28px] overflow-hidden">
             {images[selectedImage] && (
-              <Image
+              <CampaignImage
                 src={images[selectedImage]}
                 alt={`${product.name} — ảnh ${selectedImage + 1}`}
-                fill
                 priority
-                fetchPriority="high"
-                sizes="(max-width: 768px) 92vw, 48vw"
               />
             )}
           </div>

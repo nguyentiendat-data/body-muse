@@ -48,7 +48,7 @@ export const quizResults = {
     productIds: ["BM-03", "BM-04", "BM-07"],
   },
 };
-export function resolveQuiz(answers: readonly number[]): Exclude<Scent, "all"> {
+export function resolveQuiz(answers: readonly number[]): Exclude<Scent, "all" | "ocean"> {
   if (
     answers.length !== 5 ||
     answers.some(

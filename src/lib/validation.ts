@@ -6,6 +6,7 @@ export const scentSchema = z.enum([
   "daisy-blue",
   "peony-amber",
   "mint-soda",
+  "ocean",
   "all",
 ]);
 export const categorySchema = z.enum([

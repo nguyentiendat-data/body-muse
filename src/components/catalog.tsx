@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import { CampaignImage } from "./campaign-image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Product } from "@/types/api";
@@ -45,11 +45,9 @@ export function ProductCard({ product }: { product: Product }) {
       <Link href={`/shop/${product.slug}`} className="block">
         <div className="photo">
           {product.image && (
-            <Image
+            <CampaignImage
               src={product.image}
               alt={product.name}
-              fill
-              sizes="(max-width: 640px) 46vw, (max-width: 1024px) 30vw, 280px"
             />
           )}
         </div>

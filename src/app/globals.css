@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 body {
-  background: #fbd9cf;
-  color: #14110f;
+  background: #f4f3ef;
+  color: #101c2d;
 }
 @layer base {
   body {
@@ -135,4 +135,67 @@ body {
     transition: none !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* BODY MUSE: modern gentleman collection */
+.storefront { --line:#d4d9df; }
+.storefront .font-display {font-family:var(--font-be-vietnam),sans-serif;letter-spacing:-.035em;}
+.storefront .title,.storefront .section-title {font-weight:600;}
+.storefront .btn {border-width:1px;border-color:#c6cdd5;border-radius:4px;font-weight:500;padding:13px 22px;transition:background .2s,transform .2s;}
+.storefront .btn:hover {background:#e3e8ed;}
+.storefront .btn.primary,.storefront .btn.dark {border-color:#173b66;}
+.storefront .btn.primary:hover {background:#102d50;}
+.storefront .panel,.storefront .notice {border:1px solid var(--line);border-radius:8px;}
+.storefront input:not([type=radio]):not([type=checkbox]),.storefront textarea,.storefront select {border-width:1px;border-color:#a4afbd;border-radius:4px;}
+.storefront .product-card {border:1px solid #d9dee4;border-radius:6px;background:#fff;transition:box-shadow .2s,transform .2s;}
+.storefront .product-card:hover {transform:translateY(-4px);box-shadow:0 14px 32px #101c2d0d;}
+.storefront .photo {background:#e9ecf0;}
+.storefront .photo img {object-fit:contain;}
+.site-header {min-height:96px;}
+.brand-wordmark {letter-spacing:.15em;font-weight:600;white-space:nowrap;}
+.eyebrow {font-size:11px;font-weight:600;letter-spacing:.19em;line-height:1.7;}
+.signature-hero {background:#101c2d;color:#f6f5f1;}
+.hero-layout {display:grid;grid-template-columns:1.05fr 1fr;gap:64px;align-items:center;padding-top:64px;padding-bottom:40px;}
+.hero-copy .eyebrow {color:#d7be8a;margin-bottom:28px;}
+.hero-copy h1 {font-size:clamp(40px,4.5vw,66px);font-weight:500;line-height:1.18;letter-spacing:-.055em;}
+.hero-copy h1 span {color:#d7be8a;}
+.hero-description {color:#c2cad4;line-height:1.9;max-width:480px;margin:26px 0 32px;}
+.storefront .hero-cta {background:#d7be8a;color:#101c2d;border-color:#d7be8a;}
+.storefront .hero-cta:hover {background:#ead6ae;}
+.storefront .hero-secondary {background:transparent;color:#f6f5f1;border-color:#677181;}
+.storefront .hero-secondary:hover {background:#27374c;}
+.hero-services {display:flex;flex-wrap:wrap;gap:16px;color:#c2cad4;font-size:11px;margin-top:36px;padding-top:24px;border-top:1px solid #344154;}
+.hero-product {min-width:0;}
+.hero-product-image {position:relative;aspect-ratio:1.15;background:#e9ecf0;border-radius:4px;overflow:hidden;}
+.hero-caption {display:flex;justify-content:space-between;gap:12px;font-size:10px;letter-spacing:.12em;color:#bdc6d2;padding-top:18px;}
+.collection-nav {display:flex;align-items:center;gap:40px;padding-top:26px;padding-bottom:26px;border-bottom:1px solid #d4d9df;}
+.collection-nav>.eyebrow {white-space:nowrap;color:#5e6c7d;}
+.collection-link {display:flex;align-items:center;gap:22px;padding:12px 18px;font-size:13px;border:1px solid #d4d9df;border-radius:3px;}
+.collection-link:hover {background:#fff;}
+.editorial-section {padding-top:68px;}
+.section-heading {display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:28px;}
+.section-heading .eyebrow {color:#56677e;margin-bottom:12px;}
+.sale-layout {display:grid;grid-template-columns:1fr 1fr;background:#e7edf3;border:1px solid #d4dce6;}
+.sale-poster {position:relative;aspect-ratio:627/707;background:#dce8f3;}
+.sale-copy {display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:48px;gap:24px;}
+.sale-copy .eyebrow {color:#405d7b;}
+.sale-copy h2 {font-size:clamp(30px,3vw,44px);line-height:1.25;letter-spacing:-.04em;}
+.sale-copy p {line-height:1.9;color:#46566b;}
+.sale-copy small {font-size:12px;line-height:1.8;color:#526176;}
+.scent-invitation {display:flex;align-items:center;justify-content:space-between;gap:32px;padding:48px;background:#16283f;color:#f6f5f1;}
+.scent-invitation .eyebrow {color:#d7be8a;margin-bottom:16px;}
+.service-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:40px;padding-top:60px;}
+.service-grid>div {border-top:1px solid #a9b3c0;padding-top:24px;}
+.service-grid .eyebrow {color:#617087;}
+.service-grid h3 {font-size:20px;font-weight:600;margin:18px 0 12px;}
+.service-grid p {font-size:14px;line-height:1.9;color:#526176;}
+.newsletter {display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:48px;padding:40px;border:1px solid #cbd3dd;background:#ecefea;}
+.newsletter .eyebrow {color:#526176;margin-bottom:12px;}
+.asset-pending {height:100%;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;color:#173b66;background:#e8edf2;}
+.asset-pending>span {letter-spacing:.22em;font-size:18px;font-weight:600;}
+.asset-pending p {margin:16px 0;font-size:14px;line-height:1.7;}
+.asset-pending small {font-size:11px;color:#526176;}
+@media(max-width:767px) {
+.site-header {min-height:80px;gap:8px;}.site-header img {width:32px;height:32px;}.site-header>a {gap:6px;}.brand-wordmark {font-size:15px;letter-spacing:.08em;}.site-header .btn {padding:10px;}
+.hero-layout {grid-template-columns:1fr;gap:32px;padding-top:40px;padding-bottom:24px;}.hero-copy h1 {font-size:42px;}.hero-copy .eyebrow {margin-bottom:20px;}.hero-description {font-size:14px;margin:20px 0 24px;}.hero-services {margin-top:24px;gap:12px;font-size:10px;}.hero-caption {font-size:9px;}.collection-nav {display:block;padding-top:20px;padding-bottom:20px;}.collection-nav>.eyebrow {display:block;margin-bottom:12px;}.collection-link {font-size:12px;padding:10px 14px;gap:16px;}.editorial-section {padding-top:40px;}.section-heading {align-items:start;}.section-heading>a {font-size:12px;padding-top:8px;}.section-title {font-size:27px;}.eyebrow {font-size:10px;}.sale-layout {grid-template-columns:1fr;}.sale-copy {padding:28px;gap:20px;}.scent-invitation {padding:28px;display:block;}.scent-invitation>.btn {margin-top:24px;}.service-grid {grid-template-columns:1fr;gap:24px;padding-top:40px;}.newsletter {grid-template-columns:1fr;gap:24px;padding:24px;}.storefront .product-card .btn {font-size:12px;padding:10px;}.storefront footer {margin-top:40px;}
 }

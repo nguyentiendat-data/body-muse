@@ -65,3 +65,10 @@ Quy ước: sau mỗi giai đoạn ghi đã xong gì, còn gì, quyết định 
 - Môn học: Công nghệ marketing, Nhóm 1. Thông tin nhóm, email, fanpage, Messenger, slogan nằm duy nhất ở `src/lib/site-config.ts`; footer, trang Về chúng mình, chính sách và nút Messenger đọc từ đó.
 - Nút Messenger luôn hiện, dùng `messengerUrl?ref=<utm_source hoặc web>`; page lấy từ `NEXT_PUBLIC_MESSENGER_PAGE` (mặc định 61595529898398).
 - Placeholder còn chờ nhóm cung cấp: địa chỉ liên hệ, chính sách đổi trả chính thức, thời hạn lưu trữ và đơn vị quản lý dữ liệu, tài khoản ngân hàng/QR chuyển khoản, thành phần và hướng dẫn sử dụng sản phẩm, danh sách thành viên.
+
+### Cập nhật giao diện nam tính và Ocean — 13/11/2026
+- Trang chủ mới theo phong cách navy, trắng ngà, điểm nhấn champagne; bố cục editorial, nút góc gọn, thẻ sản phẩm và biểu mẫu đồng bộ; responsive mobile 390 px. Yêu cầu mới của người dùng thay thế bảng màu hồng và phong cách bo tròn trong đề bài gốc.
+- Thêm BM-13, Lăn khử mùi nam Ocean 50 ml; bộ lọc/API validation/cart hỗ trợ scent ocean. Giá demo tạm 99.000đ, 198.000đ/100 ml, stock 50; chưa có giá và tầng hương chính thức. Không thêm Ocean vào kết quả quiz ba mùi hiện tại. Seed idempotent sẽ thêm sản phẩm khi chạy với DB; chưa chạy seed trên DB thật.
+- Chuẩn bị hero Ocean và poster 11.11 riêng; không áp giảm 70% vào giá khi chưa có quy tắc khuyến mãi. Giữ nguyên toàn bộ ảnh cũ.
+- CÒN CHỜ FILE ẢNH: hai ảnh đính kèm chỉ hiển thị trong hội thoại, chưa có file trong repo. Cần lưu ảnh gốc vào public/products/ocean.png và public/sale-11-11.png. Thành phần ảnh có trạng thái chờ, không dùng ảnh sản phẩm khác thay thế.
+- npm run build đạt; npm run check đạt (lint, typecheck, 14 tests). Playwright 10/10 đạt trên mobile 390 px và desktop: mua hàng/UTM/tra cứu, tài khoản/OTP, quiz, admin/origin, Ocean lọc/chi tiết/giỏ. Đã xem ảnh chụp hai kích thước; chưa thể duyệt ảnh Ocean/sale vì thiếu file. Bản build cuối khôi phục theo cấu hình local của dự án. Không deploy/push.
